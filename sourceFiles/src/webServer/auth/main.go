@@ -3,8 +3,8 @@ package auth
 import (
 	"encoding/json"
 
-	"github.com/NL-A/nla_framework/pg"
-	"github.com/NL-A/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/pg"
+	"github.com/the-suleiman/nla_framework/types"
 )
 
 var (

@@ -24,29 +24,27 @@ import (
 
 // таблица
 type (
-
 	FldVueCompositionTable struct {
-		FldName string
-		TableName string
-		Columns []FldVueCompositionTableColumn
-		PgMethod string
+		FldName    string
+		TableName  string
+		Columns    []FldVueCompositionTableColumn
+		PgMethod   string
 		Pagination FldVueCompositionTablePagination
-		Separator string // horizontal (default), vertical, cell, none
+		Separator  string // horizontal (default), vertical, cell, none
 	}
 	FldVueCompositionTableColumn struct {
-		Name string
-		Label string
-		Align string
-		Field string
+		Name     string
+		Label    string
+		Align    string
+		Field    string
 		Sortable bool
 	}
 	FldVueCompositionTablePagination struct {
 		RowsPerPage int
 	}
-
 )
 
-func GetFldVueCompositionTable(d *DocType, tbl FldVueCompositionTable, rowCol [][]int, params... string) (fld FldType) {
+func GetFldVueCompositionTable(d *DocType, tbl FldVueCompositionTable, rowCol [][]int, params ...string) (fld FldType) {
 	if len(tbl.FldName) == 0 {
 		log.Fatalf("doc: '%s'. Missed FldName in FldVueCompositionTable", d.Name)
 	}
@@ -73,7 +71,7 @@ func GetFldVueCompositionTable(d *DocType, tbl FldVueCompositionTable, rowCol []
 	if tbl.Pagination.RowsPerPage == 0 {
 		tbl.Pagination.RowsPerPage = 5
 	}
-	if len(tbl.Separator)== 0{
+	if len(tbl.Separator) == 0 {
 		tbl.Separator = "horizontal"
 	}
 	// прописываем пути шаблона
@@ -81,15 +79,15 @@ func GetFldVueCompositionTable(d *DocType, tbl FldVueCompositionTable, rowCol []
 		d.Templates = map[string]*DocTemplate{}
 	}
 	d.Templates[fmt.Sprintf("%s_common_table", tbl.FldName)] = &DocTemplate{
-		Source:       fmt.Sprintf("%s/templates/webClient/quasar_%v/doc/comp/commonTable.vue", getRootDirPath(), d.GetProject().GetQuasarVersion()),
+		Source:       fmt.Sprintf("%s/templates/webClient/%s/doc/comp/commonTable.vue", getRootDirPath(), QuasarWebClientDir),
 		DistPath:     "../src/webClient/src/app/components/partner/comp",
 		DistFilename: tbl.FldName + "CommonTable.vue",
 		FuncMap: map[string]interface{}{
-			"GetTableTitle": func() string {return tbl.TableName},
-			"GetColumns": func() []FldVueCompositionTableColumn { return tbl.Columns},
-			"GetPgMethod": func() string {return tbl.PgMethod},
-			"GetRowsPerPage": func() int {return tbl.Pagination.RowsPerPage },
-			"GetSeparator": func() string {return tbl.Separator },
+			"GetTableTitle":  func() string { return tbl.TableName },
+			"GetColumns":     func() []FldVueCompositionTableColumn { return tbl.Columns },
+			"GetPgMethod":    func() string { return tbl.PgMethod },
+			"GetRowsPerPage": func() int { return tbl.Pagination.RowsPerPage },
+			"GetSeparator":   func() string { return tbl.Separator },
 		},
 	}
 
@@ -105,15 +103,15 @@ func GetFldVueCompositionTable(d *DocType, tbl FldVueCompositionTable, rowCol []
 	if d.Vue.Components["docItem"] == nil {
 		d.Vue.Components["docItem"] = map[string]string{}
 	}
-	d.Vue.Components["docItem"][tbl.FldName + "CommonTable"] = importAddress
+	d.Vue.Components["docItem"][tbl.FldName+"CommonTable"] = importAddress
 
 	// параметры самого поля
 	classStr := "col-md-4 col-xs-6"
-	if len(params)>0 {
-		classStr= params[0]
+	if len(params) > 0 {
+		classStr = params[0]
 	}
-	fld = FldType{Type:FldTypeVueComposition,  Vue:FldVue{RowCol: rowCol, Class: []string{classStr}, Composition: func(p ProjectType, d DocType, fld FldType) string {
-		return fmt.Sprintf("<%[1]s :item='item'/>", strings.Replace(snaker.CamelToSnake(tbl.FldName + "CommonTable"), "_", "-", -1))
+	fld = FldType{Type: FldTypeVueComposition, Vue: FldVue{RowCol: rowCol, Class: []string{classStr}, Composition: func(p ProjectType, d DocType, fld FldType) string {
+		return fmt.Sprintf("<%[1]s :item='item'/>", strings.Replace(snaker.CamelToSnake(tbl.FldName+"CommonTable"), "_", "-", -1))
 	}}}
 
 	return

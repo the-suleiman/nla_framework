@@ -13,9 +13,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/iancoleman/strcase"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 var project *types.ProjectType
@@ -69,12 +69,9 @@ func ParseTemplates(p types.ProjectType) map[string]*template.Template {
 	if p.IsBackupOnYandexDisk() {
 		readFiles("project_", "[[", "]]", path+"deployYandexBackup.ps1")
 	}
-	// webClient
-	path = fmt.Sprintf("%s/webClient/quasar_%v/doc/", currentDir, p.GetQuasarVersion())
-	readFiles("webClient_", "[[", "]]", path+"index.vue", path+"item.vue", path+"itemWithTabs.vue", path+"tabInfo.vue")
-	if p.GetQuasarVersion() == 1 {
-		readFiles("webClient_", "[[", "]]", path+"tabTasks.vue")
-	}
+	// webClient (Quasar 2 only)
+	path = fmt.Sprintf("%s/webClient/%s/doc/", currentDir, types.QuasarWebClientDir)
+	readFiles("webClient_", "[[", "]]", path+"index.vue", path+"item.vue", path+"itemWithTabs.vue", path+"tabInfo.vue", path+"tabTasks.vue")
 
 	// sql
 	path = currentDir + "/sql/"
@@ -192,9 +189,9 @@ func ParseTemplates(p types.ProjectType) map[string]*template.Template {
 							d.Templates["sql_function_update.sql"].Tmpl = stateMachineReadTmplUpdate(funcMap, currentDir+"/sql/function/stateMachine_update.sql")
 						}
 					}
-					if tName == "webClient_item.vue" && p.GetQuasarVersion() == 1 {
+					if tName == "webClient_item.vue" {
 						if _, ok := d.Templates["webClient_item.vue"]; ok {
-							d.Templates["webClient_item.vue"].Tmpl = stateMachineReadTmplWebclientItem(funcMap, currentDir+"/webClient/quasar_1/doc/comp/stateMachine/webClient_item.vue")
+							d.Templates["webClient_item.vue"].Tmpl = stateMachineReadTmplWebclientItem(funcMap, currentDir+"/webClient/"+types.QuasarWebClientDir+"/doc/comp/stateMachine/webClient_item.vue")
 						}
 					}
 				}

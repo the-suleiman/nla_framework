@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/NL-A/nla_framework/types"
 	pgGenerate "github.com/pepelazz/pg_generate"
+	"github.com/the-suleiman/nla_framework/types"
 )
 
 var Pg *sql.DB

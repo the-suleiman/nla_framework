@@ -7,11 +7,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NL-A/nla_framework/cacheUtil"
-	"github.com/NL-A/nla_framework/pg"
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/the-suleiman/nla_framework/cacheUtil"
+	"github.com/the-suleiman/nla_framework/pg"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 // проверка токена авторизации

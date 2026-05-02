@@ -35,13 +35,6 @@ botName = "{{.Config.Telegram.BotName}}"
 token = "{{.Config.Telegram.Token}}"
 {{- end}}
 
-{{if .IsBitrixIntegration -}}
-[bitrix]
-apiUrl = "{{.Config.Bitrix.ApiUrl}}"
-userId = "{{.Config.Bitrix.UserId}}"
-webhookToken = "{{.Config.Bitrix.WebhookToken}}"
-{{- end}}
-
 {{if .IsOdataIntegration -}}
 [odata]
 url = "{{.Config.Odata.Url}}"

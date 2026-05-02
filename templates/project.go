@@ -5,9 +5,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/templates/tmplGenerateStep2"
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
+	"github.com/the-suleiman/nla_framework/templates/tmplGenerateStep2"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 func WriteProjectFiles(p types.ProjectType, tmplMap map[string]*template.Template) {
@@ -39,7 +39,7 @@ func WriteProjectFiles(p types.ProjectType, tmplMap map[string]*template.Templat
 	}
 
 	projectTmplPath := getCurrentDir() + "/project"
-	webClient := fmt.Sprintf("/webClient/quasar_%v", p.GetQuasarVersion())
+	webClient := "/webClient/" + types.QuasarWebClientDir
 	ReadTmplAndPrint(p, projectTmplPath+"/types/main.go", "/types", "main.go", nil)
 	ReadTmplAndPrint(p, projectTmplPath+"/types/config.go", "/types", "config.go", nil)
 	ReadTmplAndPrint(p, projectTmplPath+"/webServer/main.go", "/webServer", "main.go", nil)
@@ -111,17 +111,6 @@ func WriteProjectFiles(p types.ProjectType, tmplMap map[string]*template.Templat
 		ReadTmplAndPrint(p, projectTmplPath+"/yandexDiskBackup/startYandexBackupService.sh", "/yandexDiskBackup", "startYandexBackupService.sh", nil)
 	}
 
-	// в случае коннекта к Битрикс генерим файлы
-	if p.IsBitrixIntegration() {
-		ReadTmplAndPrint(p, getCurrentDir()+"/integrations/bitrix/bitrixMain.go", "/bitrix", "main.go", nil)
-		//sourcePath := "../../../NL-A/nla_framework/templates/integrations/bitrix/bitrixMain.go"
-		//t, err := template.New("bitrixMain.go").Funcs(funcMap).Delims("[[", "]]").ParseFiles(sourcePath)
-		//utils.CheckErr(err, "bitrixMain.go")
-		//distPath := fmt.Sprintf("%s/bitrix", p.DistPath)
-		//err = ExecuteToFile(t, p, distPath, "main.go")
-		//utils.CheckErr(err, fmt.Sprintf("'project' ExecuteToFile '%s'", "bitrix/main.go"))
-	}
-
 	// в случае коннекта к 1 Odata генерим файлы
 	if p.IsOdataIntegration() {
 		ReadTmplAndPrint(p, getCurrentDir()+"/integrations/odata/main.go", "/odata", "main.go", nil)
@@ -130,10 +119,7 @@ func WriteProjectFiles(p types.ProjectType, tmplMap map[string]*template.Templat
 }
 
 func OtherTemplatesGenerate(p types.ProjectType) {
-	// для второй версии task не обрабатываем
-	if p.GetQuasarVersion() == 1 {
-		tmplGenerateStep2.TasksTmpl(p)
-	}
+	tmplGenerateStep2.TasksTmpl(p)
 	// добавляем функции в plugin/utils.js
 	tmplGenerateStep2.PluginUtilsJs(p)
 	//

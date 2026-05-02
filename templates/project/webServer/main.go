@@ -7,9 +7,6 @@ import (
 	"[[.Config.LocalProjectPath]]/webServer/auth"
 	"github.com/gin-gonic/gin"
 
-[[if .IsBitrixIntegration -]]
-	"[[.Config.LocalProjectPath]]/bitrix"
-[[- end]]
 [[if .IsOdataIntegration -]]
 	"[[.Config.LocalProjectPath]]/odata"
 [[- end]]
@@ -74,16 +71,6 @@ func StartWebServer(config types.Config) {
 		apiRoute.POST("/telegram_auth", telegramAuth(config.Telegram))
 [[- end]]
 
-[[if .IsBitrixIntegration -]]
-		// импорт данных из Битрикс
-		btxRoute := apiRoute.Group("/bitrix")
-[[- range .Docs -]]
-[[- if .IsBitrixIntegration]]
-		btxRoute.POST("/import_[[.Name]]", bitrix.Get[[ToCamel .Name]]History)
-[[- end ]]
-[[- end ]]
-[[- end ]]
-
 [[if .IsOdataIntegration -]]
 		// импорт данных из 1С Odata
 		odataRoute := apiRoute.Group("/odata")
@@ -101,15 +88,6 @@ func StartWebServer(config types.Config) {
 [[- range .Go.Routes.NotAuth]]
 	[[.]]
 [[- end]]
-
-[[if .IsBitrixIntegration -]]
-	// отладочные методы для импорта данных из Битрикс
-[[- range .Docs -]]
-[[- if .IsBitrixIntegrationDebugMode]]
-	r.GET("/bitrix/import_[[.Name]]", bitrix.Get[[ToCamel .Name]]HistoryDebug)
-[[- end ]]
-[[- end ]]
-[[- end ]]
 
 [[if .IsOdataIntegration -]]
 	// отладочные методы для импорта данных из Битрикс

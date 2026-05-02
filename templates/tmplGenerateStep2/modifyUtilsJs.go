@@ -8,8 +8,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 // шаблоны для сообщений о задачах, i18n и пр
@@ -26,7 +26,7 @@ func PluginUtilsJs(p types.ProjectType) {
 			return funcBodyes
 		},
 	}
-	path := fmt.Sprintf("%s/project/webClient/quasar_%v/app/plugins/utils.js", getPathDirTemplate(), p.GetQuasarVersion())
+	path := fmt.Sprintf("%s/project/webClient/%s/app/plugins/utils.js", getPathDirTemplate(), types.QuasarWebClientDir)
 	t, err := template.New("utils.js").Funcs(funcMap).Delims("[[", "]]").ParseFiles(path)
 	utils.CheckErr(err, "OverriteCopiedFiles ParseFiles")
 
@@ -38,7 +38,7 @@ func PluginUtilsJs(p types.ProjectType) {
 func BootI18nJs(p types.ProjectType) {
 	distPath := fmt.Sprintf("%s/webClient/src/boot", p.DistPath)
 
-	path := fmt.Sprintf("%s/project/webClient/quasar_%v/boot/i18n.js", getPathDirTemplate(), p.GetQuasarVersion())
+	path := fmt.Sprintf("%s/project/webClient/%s/boot/i18n.js", getPathDirTemplate(), types.QuasarWebClientDir)
 	t, err := template.New("i18n.js").Delims("[[", "]]").ParseFiles(path)
 	utils.CheckErr(err, "OverrideCopiedFiles ParseFiles")
 

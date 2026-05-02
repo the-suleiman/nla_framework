@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/NL-A/nla_framework/utils"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 const (
@@ -310,14 +310,6 @@ func (fld FldType) SetReadonly(s string) FldType {
 
 func (fld FldType) SetVif(s string) FldType {
 	fld.Vue.Vif = s
-	return fld
-}
-
-func (fld FldType) SetBitrixInfo(b BitrixFld) FldType {
-	if fld.IntegrationData == nil {
-		fld.IntegrationData = map[string]interface{}{}
-	}
-	fld.IntegrationData["bitrix"] = b
 	return fld
 }
 

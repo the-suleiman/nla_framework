@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 func docIsRecursionProccess(p types.ProjectType, d *types.DocType) {
-	sourcePath := fmt.Sprintf("%s/webClient/quasar_%v/doc/comp/recursiveChildList.vue", getCurrentDir(), p.GetQuasarVersion())
+	sourcePath := fmt.Sprintf("%s/webClient/%s/doc/comp/recursiveChildList.vue", getCurrentDir(), types.QuasarWebClientDir)
 	// проверяем возможность того, что путь к шаблону был переопределен внутри документа
 	if d.TemplatePathOverride != nil {
 		if tmpl, ok := d.TemplatePathOverride["recursiveChildList.vue"]; ok {

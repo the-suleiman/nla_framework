@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/NL-A/nla_framework/graylog"
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/the-suleiman/nla_framework/graylog"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 func logToGraylog(c *gin.Context) {

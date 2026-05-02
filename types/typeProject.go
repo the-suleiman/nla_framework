@@ -2,8 +2,6 @@ package types
 
 import (
 	"fmt"
-	"go/build"
-	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -12,9 +10,12 @@ import (
 
 	"golang.org/x/mod/modfile"
 
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/serenize/snaker"
+	"github.com/the-suleiman/nla_framework/utils"
 )
+
+// QuasarWebClientDir is the only supported Quasar/Vue bundle under templates/webClient and webClient/.
+const QuasarWebClientDir = "quasar_2"
 
 type (
 	ProjectType struct {
@@ -39,7 +40,6 @@ type (
 		Email            EmailConfig
 		DevMode          DevModeConfig
 		Vue              VueConfig
-		Bitrix           BitrixConfig
 		Telegram         TelegramConfig
 		Odata            OdataConfig
 		Yandex           YandexConfig
@@ -135,8 +135,7 @@ type (
 	}
 
 	VueConfig struct {
-		DadataToken   string
-		QuasarVersion int // версия quasar-framework 1, 2
+		DadataToken string
 	}
 
 	I18nType struct {
@@ -144,12 +143,6 @@ type (
 		IsExist     bool
 		LangList    []string
 		Data        map[string]map[string]map[string]string //RU : message : save: 'сохранить'
-	}
-
-	BitrixConfig struct {
-		ApiUrl       string
-		UserId       string
-		WebhookToken string
 	}
 
 	TelegramConfig struct {
@@ -391,11 +384,6 @@ func (p *ProjectType) GenerateGrid() {
 	}
 }
 
-// признак что есть интеграция с Битрикс
-func (p ProjectType) IsBitrixIntegration() bool {
-	return len(p.Config.Bitrix.ApiUrl) > 0
-}
-
 // признак что есть интеграция с Telegram
 func (p ProjectType) IsTelegramIntegration() bool {
 	return len(p.Config.Telegram.Token) > 0
@@ -442,38 +430,44 @@ func (p ProjectType) PrintJsRoles() string {
 	return res
 }
 
-// FillLocalPath Если не указан путь к локальному проекту, то вычисляем его автоматически
-func (p *ProjectType) FillLocalPath() string {
-	// для старого варианта, когда проект находится в директории GOPATH
-	if len(p.Config.LocalProjectPath) == 0 {
-		if f, err := os.Open("go.mod"); os.IsNotExist(err) {
-			// путь к локальной директории
-			path, _ := filepath.Abs("./")
-			// находим gopath
-			gopath := os.Getenv("GOPATH")
-			if gopath == "" {
-				gopath = build.Default.GOPATH
-			}
-			// убираем из начала пути gopath
-			path = strings.TrimPrefix(path, gopath)
-			// приводим разделитель пути к unix стилю
-			path = strings.Replace(path, string(os.PathSeparator), "/", -1)
-			// убираем из начала еще src
-			path = strings.TrimPrefix(path, "/src/")
-			// убираем из конца projectTemplate и добавляем src
-			path = strings.TrimSuffix(path, "/projectTemplate") + "/src"
-			p.Config.LocalProjectPath = path
-		} else {
-			// для нового варианта, когда проект создается с модулями
-			defer f.Close()
-			data, _ := io.ReadAll(f)
-			path := modfile.ModulePath(data)
-			// убираем из конца projectTemplate и добавляем src
-			path = strings.TrimSuffix(path, "/projectTemplate") + "/src"
-			p.Config.LocalProjectPath = path
+// findGoModDir walks up from startDir until it finds a directory containing go.mod.
+func findGoModDir(startDir string) (string, error) {
+	dir := startDir
+	for i := 0; i < 64; i++ {
+		modPath := filepath.Join(dir, "go.mod")
+		if _, err := os.Stat(modPath); err == nil {
+			return dir, nil
 		}
-
+		parent := filepath.Dir(dir)
+		if parent == dir {
+			break
+		}
+		dir = parent
 	}
+	return "", fmt.Errorf("no go.mod in %s or any parent directory", startDir)
+}
+
+// FillLocalPath infer module import path + /src from go.mod when LocalProjectPath is empty.
+// It searches upward from the current working directory so generators can run from subdirs (e.g. projectTemplate/).
+func (p *ProjectType) FillLocalPath() string {
+	if len(p.Config.LocalProjectPath) > 0 {
+		return p.Config.LocalProjectPath
+	}
+	wd, err := os.Getwd()
+	if err != nil {
+		utils.CheckErr(err, "FillLocalPath Getwd")
+	}
+	modDir, err := findGoModDir(wd)
+	if err != nil {
+		utils.CheckErr(fmt.Errorf("set Config.LocalProjectPath or run from a directory inside the module tree: %w", err), "FillLocalPath")
+	}
+	data, err := os.ReadFile(filepath.Join(modDir, "go.mod"))
+	if err != nil {
+		utils.CheckErr(err, "FillLocalPath read go.mod")
+	}
+	path := modfile.ModulePath(data)
+	path = strings.TrimSuffix(path, "/projectTemplate") + "/src"
+	p.Config.LocalProjectPath = path
 	return p.Config.LocalProjectPath
 }
 
@@ -537,13 +531,6 @@ func (p ProjectType) PrintProcessPgErrorMsgs() string {
 		}
 	}
 	return strings.Join(res, "\n")
-}
-
-func (p *ProjectType) GetQuasarVersion() int {
-	if p.Config.Vue.QuasarVersion == 0 {
-		return 1
-	}
-	return p.Config.Vue.QuasarVersion
 }
 
 func (p *ProjectType) AddI18n(lang, prefix, key, value string) {

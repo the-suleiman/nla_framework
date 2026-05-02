@@ -6,8 +6,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 // заполняем словарь локализации

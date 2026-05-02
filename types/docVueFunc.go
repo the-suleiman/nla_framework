@@ -8,9 +8,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/serenize/snaker"
 	"github.com/spf13/cast"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 func (d DocType) PrintListRowAvatar() string {
@@ -489,7 +489,7 @@ func GetFldVueCompositionRefList(d *DocType, refDoc VueCompRefListWidgetParams, 
 		d.Templates = map[string]*DocTemplate{}
 	}
 	d.Templates[fmt.Sprintf("%s_ref_list_widget", refDoc.FldName)] = &DocTemplate{
-		Source:       fmt.Sprintf("%s/templates/webClient/quasar_%v/doc/comp/refListWidget.vue", getRootDirPath(), d.GetProject().GetQuasarVersion()),
+		Source:       fmt.Sprintf("%s/templates/webClient/%s/doc/comp/refListWidget.vue", getRootDirPath(), QuasarWebClientDir),
 		DistPath:     fmt.Sprintf("../src/webClient/src/app/components/%s/comp", d.PgName()),
 		DistFilename: snaker.SnakeToCamelLower(refDoc.FldName) + "RefListWidget.vue",
 		FuncMap: map[string]interface{}{

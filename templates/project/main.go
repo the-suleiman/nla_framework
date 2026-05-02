@@ -12,9 +12,6 @@ import (
 	"{{.Config.LocalProjectPath}}/utils"
 	"{{.Config.LocalProjectPath}}/webServer"
 	"{{.Config.LocalProjectPath}}/sse"
-{{if .IsBitrixIntegration -}}
-	"{{.Config.LocalProjectPath}}/bitrix"
-{{- end}}
 {{if .IsTelegramIntegration -}}
 	"{{.Config.LocalProjectPath}}/tgBot"
 {{- end}}
@@ -116,9 +113,6 @@ func main() {
 	// передаем часть конфига в utils
 	utils.SetWebServerConfig(config.WebServer)
 	utils.SetEmailConfig(config.Email)
-{{if .IsBitrixIntegration -}}
-	bitrix.SetBitrixConfig(config.Bitrix)
-{{- end}}
 {{if .IsOdataIntegration -}}
 	odata.SetOdataConfig(config.Odata)
 {{- end}}

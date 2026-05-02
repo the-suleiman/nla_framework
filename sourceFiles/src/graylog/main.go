@@ -3,7 +3,7 @@ package graylog
 import (
 	"fmt"
 
-	"github.com/NL-A/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/types"
 	"gopkg.in/aphistic/golf.v0"
 )
 

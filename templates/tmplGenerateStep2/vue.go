@@ -6,11 +6,12 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 // шаблоны для сообщений о задачах
@@ -36,7 +37,9 @@ func TasksTmpl(p types.ProjectType) {
 			return
 		},
 	}
-	path := strings.TrimPrefix(getPathDirTemplate(), "/templates") + "/webClient/quasar_1/webClient/src/app/components/currentUser/tasks/list.vue"
+	// list.vue lives next to templates/ under webClient/quasar_2/..., not under templates/webClient/
+	rootDir := filepath.Dir(getPathDirTemplate())
+	path := filepath.Join(rootDir, "webClient", types.QuasarWebClientDir, "webClient", "src", "app", "components", "currentUser", "tasks", "list.vue")
 	t, err := template.New("list.vue").Funcs(funcMap).Delims("[[", "]]").ParseFiles(path)
 	utils.CheckErr(err, "OverriteCopiedFiles ParseFiles")
 

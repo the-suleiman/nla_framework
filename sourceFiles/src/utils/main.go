@@ -14,9 +14,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/NL-A/nla_framework/types"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
+	"github.com/the-suleiman/nla_framework/types"
 )
 
 const (

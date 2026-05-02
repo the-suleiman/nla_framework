@@ -13,10 +13,10 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/templates"
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/spf13/cast"
+	"github.com/the-suleiman/nla_framework/templates"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 	//"github.com/otiai10/copy"
 )
 
@@ -96,11 +96,6 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 	if !p.Config.Auth.ByPhone {
 		p.Config.Auth.ByEmail = true
 	}
-	// дефолтная версия quasar-framework 1
-	if p.Config.Vue.QuasarVersion != 2 {
-		p.Config.Vue.QuasarVersion = 1
-	}
-
 	// дефолтная версия Postgres 12
 	if len(p.Config.Postgres.Version) == 0 {
 		p.Config.Postgres.Version = "12"
@@ -142,15 +137,9 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 	err := copyFiles(project, getCurrentDir()+"/sourceFiles", "../", modifyFunc)
 	utils.CheckErr(err, "Copy sourceFiles")
 
-	// отдельно копируем webClient в зависимости от версии quasar-framework
-	err = copyFiles(project, fmt.Sprintf("%s/webClient/quasar_%v", getCurrentDir(), project.GetQuasarVersion()), "../src/", modifyFunc)
+	// копируем webClient (Quasar 2 only)
+	err = copyFiles(project, getCurrentDir()+"/webClient/"+types.QuasarWebClientDir, "../src/", modifyFunc)
 	utils.CheckErr(err, "Copy sourceFiles")
-
-	// в случае если quasar-framework v1 то копируем часть устаревших sql файлов. Для поддержания кода старых проектов
-	if p.GetQuasarVersion() == 1 {
-		err = copyFiles(project, getCurrentDir()+"/sourceFilesSQL_legacy", "../src/sql/", modifyFunc)
-		utils.CheckErr(err, "Copy sourceFiles")
-	}
 
 	templates.OtherTemplatesGenerate(project)
 }
@@ -176,7 +165,7 @@ func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModi
 				}
 				// заменяем ссылки в go файлах
 				if strings.HasSuffix(info.Name(), ".go") {
-					file = []byte(strings.Replace(string(file), "github.com/NL-A/nla_framework", p.Config.LocalProjectPath, -1))
+					file = []byte(strings.Replace(string(file), "github.com/the-suleiman/nla_framework", p.Config.LocalProjectPath, -1))
 				}
 				// изменение config.js
 				if strings.HasSuffix(path, "app"+string(os.PathSeparator)+"plugins"+string(os.PathSeparator)+"config.js") {

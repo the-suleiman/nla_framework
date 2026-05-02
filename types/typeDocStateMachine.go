@@ -47,12 +47,12 @@ type (
 	DocSmTmpls struct {
 		ItemStateHeader string
 		IsShowChat      bool
-		Hooks DocSmTmplsHooks
+		Hooks           DocSmTmplsHooks
 	}
 	DocSmTmplsHooks struct {
 		AfterActionBtns []string
-		ItemMethods []string
-		BeforeChat []string
+		ItemMethods     []string
+		BeforeChat      []string
 	}
 )
 
@@ -208,7 +208,7 @@ func (action DocSmAction) GetUpdateFldsGrid() func() [][]FldType {
 }
 
 func (sm *DocSm) GenerateTmpls(doc *DocType, params map[string]interface{}) {
-	path := fmt.Sprintf("%s/templates/webClient/quasar_%v/doc/comp/stateMachine", getRootDirPath(), doc.GetProject().GetQuasarVersion())
+	path := fmt.Sprintf("%s/templates/webClient/%s/doc/comp/stateMachine", getRootDirPath(), QuasarWebClientDir)
 	cardTmplPath := path + "/cardTmpl.vue"
 	actionBtnPath := path + "/actionBtn.vue"
 	if params != nil {

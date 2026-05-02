@@ -15,12 +15,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/muesli/smartcrop"
 	"github.com/muesli/smartcrop/nfnt"
 	"github.com/nfnt/resize"
 	"github.com/oklog/ulid"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 const IMAGE_DIR = "../image"

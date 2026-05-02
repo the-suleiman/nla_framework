@@ -35,14 +35,6 @@ type TelegramConfig struct {
 }
 [[- end]]
 
-[[if.IsBitrixIntegration -]]
-type BitrixConfig struct {
-	ApiUrl       string
-	UserId       string
-	WebhookToken string
-}
-[[- end]]
-
 [[if.IsOdataIntegration -]]
 type OdataConfig struct {
 	Url              string

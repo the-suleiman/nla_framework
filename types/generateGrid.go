@@ -16,7 +16,7 @@ func makeGrid(doc DocType) []VueGridDiv {
 			} else {
 				cell = getCell(&cell.Grid, arr[0], arr[1], class)
 			}
-			if i == len(fld.Vue.RowCol) - 1 {
+			if i == len(fld.Vue.RowCol)-1 {
 				// если последний элемент в массиве, то создаем финальный div для field
 				cell.Fld = fld
 			}

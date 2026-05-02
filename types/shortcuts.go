@@ -9,7 +9,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/utils"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 // создание поля title
@@ -531,7 +531,7 @@ func (vt VueTab) AddCounter(d *DocType, tabName, pgMethod, pgParams string) VueT
 		d.Vue.Mixins["docItemWithTabs"] = []VueMixin{}
 	}
 	d.Vue.Mixins["docItemWithTabs"] = append(d.Vue.Mixins["docItemWithTabs"], VueMixin{"tabCounter" + tabName, "./mixins/tabCounter" + tabName + ".js"})
-	sourcePath := fmt.Sprintf("%s/templates/webClient/quasar_%v/doc/mixins/tabCounter.js", getRootDirPath(), d.GetProject().GetQuasarVersion())
+	sourcePath := fmt.Sprintf("%s/templates/webClient/%s/doc/mixins/tabCounter.js", getRootDirPath(), QuasarWebClientDir)
 	funcMap := template.FuncMap{
 		"VarName":  func() string { return "tabCounter" + tabName },
 		"PgMethod": func() string { return pgMethod },

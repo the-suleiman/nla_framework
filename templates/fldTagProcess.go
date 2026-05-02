@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/types"
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/serenize/snaker"
+	"github.com/the-suleiman/nla_framework/types"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 // если в документе есть поле с типо тэг, то создаем sql метод для запроса списка тэгов.
@@ -39,7 +39,7 @@ func fldTagProccess(p types.ProjectType, d *types.DocType, fld *types.FldType) {
 		}
 		d.Sql.Methods[methodName] = &types.DocSqlMethod{Name: methodName}
 		// читаем шаблон и генерим файл с mixin
-		t, err = template.New("mixinTag.js").Funcs(funcMap).Delims("[[", "]]").ParseFiles(fmt.Sprintf("%s/webClient/quasar_%v/doc/mixinTag.js", getCurrentDir(), p.GetQuasarVersion()))
+		t, err = template.New("mixinTag.js").Funcs(funcMap).Delims("[[", "]]").ParseFiles(fmt.Sprintf("%s/webClient/%s/doc/mixinTag.js", getCurrentDir(), types.QuasarWebClientDir))
 		utils.CheckErr(err, "mixinTag.js")
 		distPath = fmt.Sprintf("%s/webClient/src/app/components/%s/mixins", p.DistPath, d.Name)
 		// в случае табов изменяем path

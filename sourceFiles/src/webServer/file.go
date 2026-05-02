@@ -9,9 +9,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/NL-A/nla_framework/pg"
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/the-suleiman/nla_framework/pg"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 const FILE_DIR = "../uploaded_files"

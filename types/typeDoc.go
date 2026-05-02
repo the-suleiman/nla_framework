@@ -7,8 +7,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/serenize/snaker"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 const (
@@ -203,20 +203,7 @@ type (
 	}
 
 	DocIntegrations struct {
-		Bitrix DocIntegrationsBitrix
-		Odata  DocIntegrationsOdata
-	}
-
-	DocIntegrationsBitrix struct {
-		Name        string
-		UrlName     string // часть имени запроса. Например crm.company.list.json
-		IsDebugMode bool   // показываем открытый get метод для тестирования импорта
-		Result      struct {
-			StructDesc string // описание вложенной структуры для маппинга json
-			PathStr    string // путь до массива с данными. Например, Result.Tasks
-		}
-		UrlQuery       string
-		IsNoPagination bool // признак, что все данные получаются за один запрос
+		Odata DocIntegrationsOdata
 	}
 
 	DocIntegrationsOdata struct {
@@ -313,14 +300,6 @@ func (d DocType) NameCamelCase() string {
 
 func (d DocType) IsStateMachine() bool {
 	return d.StateMachine != nil
-}
-
-func (d DocType) IsBitrixIntegration() bool {
-	return len(d.Integrations.Bitrix.UrlName) > 0
-}
-
-func (d DocType) IsBitrixIntegrationDebugMode() bool {
-	return d.Integrations.Bitrix.IsDebugMode
 }
 
 func (d DocType) IsOdataIntegration() bool {

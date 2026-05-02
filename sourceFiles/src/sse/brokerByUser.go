@@ -3,8 +3,8 @@ package sse
 import (
 	"net/http"
 
-	"github.com/NL-A/nla_framework/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/the-suleiman/nla_framework/utils"
 )
 
 var brokerByUser map[string]broker
