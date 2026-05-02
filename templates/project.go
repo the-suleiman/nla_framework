@@ -39,7 +39,7 @@ func WriteProjectFiles(p types.ProjectType, tmplMap map[string]*template.Templat
 	}
 
 	projectTmplPath := getCurrentDir() + "/project"
-	webClient := "/webClient/" + types.QuasarWebClientDir
+	webClient := "/webClient/quasar_2"
 	ReadTmplAndPrint(p, projectTmplPath+"/types/main.go", "/types", "main.go", nil)
 	ReadTmplAndPrint(p, projectTmplPath+"/types/config.go", "/types", "config.go", nil)
 	ReadTmplAndPrint(p, projectTmplPath+"/webServer/main.go", "/webServer", "main.go", nil)
@@ -58,8 +58,9 @@ func WriteProjectFiles(p types.ProjectType, tmplMap map[string]*template.Templat
 	ReadTmplAndPrint(p, projectTmplPath+"/pg/pgListener.go", "/pg", "pgListener.go", nil)
 	ReadTmplAndPrint(p, projectTmplPath+"/utils/email.go", "/utils", "email.go", nil)
 
-	ReadTmplAndPrint(p, projectTmplPath+webClient+"/index.template.html", "/webClient/src", "index.template.html", nil)
-	ReadTmplAndPrint(p, projectTmplPath+webClient+"/quasar.conf.js", "/webClient", "quasar.conf.js", nil)
+	// Quasar CLI v4+: HTML shell at project root (next to package.json), not src/index.template.html
+	ReadTmplAndPrint(p, projectTmplPath+webClient+"/index.html", "/webClient", "index.html", nil)
+	ReadTmplAndPrint(p, projectTmplPath+webClient+"/quasar.config.js", "/webClient", "quasar.config.js", nil)
 	ReadTmplAndPrint(p, projectTmplPath+webClient+"/package.json", "/webClient", "package.json", nil)
 	ReadTmplAndPrint(p, projectTmplPath+webClient+"/App.vue", "/webClient/src", "App.vue", nil)
 	ReadTmplAndPrint(p, projectTmplPath+webClient+"/css/app.scss", "/webClient/src/css", "app.scss", nil)

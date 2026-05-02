@@ -15,6 +15,6 @@
 7. **`copyFiles(webClient/quasar_2)`** — copies the Quasar 2 SPA skeleton into `../src/`.
 8. **`OtherTemplatesGenerate`** — [`templates/project.go`](../templates/project.go): task list regeneration, `utils.js` / `i18n.js` overlays ([`templates/tmplGenerateStep2/`](../templates/tmplGenerateStep2/)).
 
-## Constants
+## Frontend bundle
 
-- **`types.QuasarWebClientDir`** — [`types/typeProject.go`](../types/typeProject.go): `"quasar_2"`. Only one frontend bundle is supported.
+- Only one Quasar 2 SPA is supported. Generator paths reference `quasar_2` literally; there is no version selector. Static skeleton lives in [`webClient/quasar_2/`](../webClient/quasar_2/), project-shell templates in [`templates/project/webClient/quasar_2/`](../templates/project/webClient/quasar_2/), and per-doc templates in [`templates/webClient/quasar_2/`](../templates/webClient/quasar_2/).

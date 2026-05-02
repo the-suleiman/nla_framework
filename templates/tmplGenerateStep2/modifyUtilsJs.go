@@ -26,7 +26,7 @@ func PluginUtilsJs(p types.ProjectType) {
 			return funcBodyes
 		},
 	}
-	path := fmt.Sprintf("%s/project/webClient/%s/app/plugins/utils.js", getPathDirTemplate(), types.QuasarWebClientDir)
+	path := fmt.Sprintf("%s/project/webClient/quasar_2/app/plugins/utils.js", getPathDirTemplate())
 	t, err := template.New("utils.js").Funcs(funcMap).Delims("[[", "]]").ParseFiles(path)
 	utils.CheckErr(err, "OverriteCopiedFiles ParseFiles")
 
@@ -38,7 +38,7 @@ func PluginUtilsJs(p types.ProjectType) {
 func BootI18nJs(p types.ProjectType) {
 	distPath := fmt.Sprintf("%s/webClient/src/boot", p.DistPath)
 
-	path := fmt.Sprintf("%s/project/webClient/%s/boot/i18n.js", getPathDirTemplate(), types.QuasarWebClientDir)
+	path := fmt.Sprintf("%s/project/webClient/quasar_2/boot/i18n.js", getPathDirTemplate())
 	t, err := template.New("i18n.js").Delims("[[", "]]").ParseFiles(path)
 	utils.CheckErr(err, "OverrideCopiedFiles ParseFiles")
 

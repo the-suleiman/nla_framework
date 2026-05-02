@@ -489,7 +489,7 @@ func GetFldVueCompositionRefList(d *DocType, refDoc VueCompRefListWidgetParams, 
 		d.Templates = map[string]*DocTemplate{}
 	}
 	d.Templates[fmt.Sprintf("%s_ref_list_widget", refDoc.FldName)] = &DocTemplate{
-		Source:       fmt.Sprintf("%s/templates/webClient/%s/doc/comp/refListWidget.vue", getRootDirPath(), QuasarWebClientDir),
+		Source:       fmt.Sprintf("%s/templates/webClient/quasar_2/doc/comp/refListWidget.vue", getRootDirPath()),
 		DistPath:     fmt.Sprintf("../src/webClient/src/app/components/%s/comp", d.PgName()),
 		DistFilename: snaker.SnakeToCamelLower(refDoc.FldName) + "RefListWidget.vue",
 		FuncMap: map[string]interface{}{

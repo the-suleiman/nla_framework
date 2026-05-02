@@ -60,7 +60,7 @@ func (pv *ProjectVue) AddRoute(r []string) {
 	pv.Routes = append(pv.Routes, r)
 }
 
-// добавление в список boot в quasar.conf.js
+// добавление в список boot в quasar.config.js
 func (pv *ProjectVue) AddQuasarBoot(name string) {
 	if pv.QuasarBoot == nil {
 		pv.QuasarBoot = []string{}

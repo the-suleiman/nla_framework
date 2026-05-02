@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.7.3",
-    "@quasar/extras": "^1.0.0",
-    "core-js": "^3.6.5",
-    "quasar": "^2.0.0",
+    "@quasar/extras": "^1.18.0",
+    "core-js": "^3.39.0",
+    "quasar": "^2.19.3",
+    "vue": "^3.5.33",
+    "vue-router": "^4.6.4",
     "lodash": "^4.17.15",
     "axios": "^0.19.2",
     "moment": "^2.24.0",
@@ -24,11 +26,12 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app": "^3.0.0",
-    "eslint": "^7.14.0",
+    "@quasar/app-webpack": "^4.4.5",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-vue": "^7.0.0",
-    "eslint-webpack-plugin": "^2.4.0"
+    "eslint-plugin-vue": "^9.30.0",
+    "eslint-webpack-plugin": "^4.0.1"
   },
   "browserslist": [
     "last 10 Chrome versions",
@@ -42,8 +45,8 @@
     "last 5 Opera versions"
   ],
   "engines": {
-    "node": ">= 12.22.1",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
+    "node": ">= 20.0.0",
+    "npm": ">= 10.0.0",
+    "yarn": ">= 1.22.0"
   }
 }

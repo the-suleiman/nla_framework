@@ -79,7 +79,7 @@ func GetFldVueCompositionTable(d *DocType, tbl FldVueCompositionTable, rowCol []
 		d.Templates = map[string]*DocTemplate{}
 	}
 	d.Templates[fmt.Sprintf("%s_common_table", tbl.FldName)] = &DocTemplate{
-		Source:       fmt.Sprintf("%s/templates/webClient/%s/doc/comp/commonTable.vue", getRootDirPath(), QuasarWebClientDir),
+		Source:       fmt.Sprintf("%s/templates/webClient/quasar_2/doc/comp/commonTable.vue", getRootDirPath()),
 		DistPath:     "../src/webClient/src/app/components/partner/comp",
 		DistFilename: tbl.FldName + "CommonTable.vue",
 		FuncMap: map[string]interface{}{

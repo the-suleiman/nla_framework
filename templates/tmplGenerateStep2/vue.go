@@ -39,7 +39,7 @@ func TasksTmpl(p types.ProjectType) {
 	}
 	// list.vue lives next to templates/ under webClient/quasar_2/..., not under templates/webClient/
 	rootDir := filepath.Dir(getPathDirTemplate())
-	path := filepath.Join(rootDir, "webClient", types.QuasarWebClientDir, "webClient", "src", "app", "components", "currentUser", "tasks", "list.vue")
+	path := filepath.Join(rootDir, "webClient", "quasar_2", "webClient", "src", "app", "components", "currentUser", "tasks", "list.vue")
 	t, err := template.New("list.vue").Funcs(funcMap).Delims("[[", "]]").ParseFiles(path)
 	utils.CheckErr(err, "OverriteCopiedFiles ParseFiles")
 

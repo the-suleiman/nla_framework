@@ -74,6 +74,9 @@ module.exports = {
     "vue/require-v-for-key": 'off',
     "vue/no-side-effects-in-computed-properties": 'off',
     "vue/valid-v-model": 'off',
-    "template-curly-spacing" : "off"
+    "template-curly-spacing" : "off",
+    // eslint-plugin-vue 9+: defaults conflict with generator conventions (index/item/home.vue) and Quasar (v-html on q-*)
+    'vue/multi-word-component-names': 'off',
+    'vue/no-v-text-v-html-on-component': 'off'
   }
 }

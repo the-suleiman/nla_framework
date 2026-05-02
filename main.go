@@ -138,7 +138,7 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 	utils.CheckErr(err, "Copy sourceFiles")
 
 	// копируем webClient (Quasar 2 only)
-	err = copyFiles(project, getCurrentDir()+"/webClient/"+types.QuasarWebClientDir, "../src/", modifyFunc)
+	err = copyFiles(project, getCurrentDir()+"/webClient/quasar_2", "../src/", modifyFunc)
 	utils.CheckErr(err, "Copy sourceFiles")
 
 	templates.OtherTemplatesGenerate(project)
@@ -193,8 +193,9 @@ func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModi
 						}
 					}
 				}
-				// изменение index.template.html
-				if strings.HasSuffix(path, "src"+string(os.PathSeparator)+"index.template.html") {
+				// изменение index.html (Quasar v4: next to package.json) или legacy src/index.template.html
+				if strings.HasSuffix(path, string(os.PathSeparator)+"webClient"+string(os.PathSeparator)+"index.html") ||
+					strings.HasSuffix(path, "src"+string(os.PathSeparator)+"index.template.html") {
 					file = []byte(strings.Replace(string(file), "[[appName]]", p.Name, -1))
 				}
 				// изменение loginPage.vue и home.vue

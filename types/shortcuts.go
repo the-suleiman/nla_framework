@@ -531,7 +531,7 @@ func (vt VueTab) AddCounter(d *DocType, tabName, pgMethod, pgParams string) VueT
 		d.Vue.Mixins["docItemWithTabs"] = []VueMixin{}
 	}
 	d.Vue.Mixins["docItemWithTabs"] = append(d.Vue.Mixins["docItemWithTabs"], VueMixin{"tabCounter" + tabName, "./mixins/tabCounter" + tabName + ".js"})
-	sourcePath := fmt.Sprintf("%s/templates/webClient/%s/doc/mixins/tabCounter.js", getRootDirPath(), QuasarWebClientDir)
+	sourcePath := fmt.Sprintf("%s/templates/webClient/quasar_2/doc/mixins/tabCounter.js", getRootDirPath())
 	funcMap := template.FuncMap{
 		"VarName":  func() string { return "tabCounter" + tabName },
 		"PgMethod": func() string { return pgMethod },
