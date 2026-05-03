@@ -14,9 +14,6 @@ import (
 	"github.com/the-suleiman/nla_framework/utils"
 )
 
-// QuasarWebClientDir is the only supported Quasar/Vue bundle under templates/webClient and webClient/.
-const QuasarWebClientDir = "quasar_2"
-
 type (
 	ProjectType struct {
 		Name                     string
@@ -78,7 +75,7 @@ type (
 		Password string
 		Host     string
 		TimeZone string // время для сервера default 'Europe/Moscow' (например 'Asia/Novosibirsk')
-		Version  string // версия Postgres, по дефолту 12
+		Version  string // версия Postgres, по дефолту 18
 		Command  string // команды конфигурации для postgres. Дефолт 'postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all -c max_connections=200'
 		// варианты команд
 		// -c shared_buffers=1GB // по дефолту 128Мб. Рекомедация: mem / 4

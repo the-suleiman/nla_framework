@@ -35,7 +35,7 @@ services:
     networks:
       - {{$projectNameSnake}}_net
     volumes:
-      - {{$serverPath}}/postgres/volume:/var/lib/postgresql/data
+      - {{$serverPath}}/postgres/volume:/var/lib/postgresql
       - {{$serverPath}}/postgres/logs:/logs
     ports:
       - "{{.Config.Postgres.Port}}:5432"

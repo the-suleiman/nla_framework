@@ -69,8 +69,8 @@ func ParseTemplates(p types.ProjectType) map[string]*template.Template {
 	if p.IsBackupOnYandexDisk() {
 		readFiles("project_", "[[", "]]", path+"deployYandexBackup.ps1")
 	}
-	// webClient (Quasar 2 only)
-	path = fmt.Sprintf("%s/webClient/quasar_2/doc/", currentDir)
+	// doc-level Vue шаблоны (рядом с templates/)
+	path = fmt.Sprintf("%s/webClient/doc/", currentDir)
 	readFiles("webClient_", "[[", "]]", path+"index.vue", path+"item.vue", path+"itemWithTabs.vue", path+"tabInfo.vue", path+"tabTasks.vue")
 
 	// sql
@@ -191,7 +191,7 @@ func ParseTemplates(p types.ProjectType) map[string]*template.Template {
 					}
 					if tName == "webClient_item.vue" {
 						if _, ok := d.Templates["webClient_item.vue"]; ok {
-							d.Templates["webClient_item.vue"].Tmpl = stateMachineReadTmplWebclientItem(funcMap, currentDir+"/webClient/quasar_2/doc/comp/stateMachine/webClient_item.vue")
+							d.Templates["webClient_item.vue"].Tmpl = stateMachineReadTmplWebclientItem(funcMap, currentDir+"/webClient/doc/comp/stateMachine/webClient_item.vue")
 						}
 					}
 				}

@@ -39,7 +39,7 @@ func WriteProjectFiles(p types.ProjectType, tmplMap map[string]*template.Templat
 	}
 
 	projectTmplPath := getCurrentDir() + "/project"
-	webClient := "/webClient/quasar_2"
+	webClient := "/webClient"
 	ReadTmplAndPrint(p, projectTmplPath+"/types/main.go", "/types", "main.go", nil)
 	ReadTmplAndPrint(p, projectTmplPath+"/types/config.go", "/types", "config.go", nil)
 	ReadTmplAndPrint(p, projectTmplPath+"/webServer/main.go", "/webServer", "main.go", nil)

@@ -5,7 +5,7 @@
 | Path | Role |
 |------|------|
 | [`templates/project/`](../templates/project/) | Generated app: Go main, Docker, SQL models (`01_User`, …), Quasar 2 app templates |
-| [`templates/webClient/quasar_2/doc/`](../templates/webClient/quasar_2/doc/) | Doc-level Vue: `index.vue`, `item.vue`, tabs, `tabTasks.vue`, state machine under `doc/comp/stateMachine/` |
+| [`templates/webClient/doc/`](../templates/webClient/doc/) | Doc-level Vue: `index.vue`, `item.vue`, tabs, `tabTasks.vue`, state machine under `doc/comp/stateMachine/` |
 | [`templates/sql/`](../templates/sql/) | Generic SQL function templates (`list`, `update`, triggers, …) |
 | [`templates/integrations/odata/`](../templates/integrations/odata/) | OData sync code templates |
 
@@ -27,5 +27,5 @@ Resolved by **`utils.ParseDocTemplateFilename`** ([`utils/main.go`](../utils/mai
 
 [`templates/tmplGenerateStep2/`](../templates/tmplGenerateStep2/):
 
-- **`TasksTmpl`** — builds `currentUser/tasks/list.vue` from `[[PrintImports]]` / `[[PrintComps]]` using templates under `webClient/quasar_2/.../tasks/list.vue`.
+- **`TasksTmpl`** — builds `currentUser/tasks/list.vue` from `[[PrintImports]]` / `[[PrintComps]]` using the list template in [`webClient/.../tasks/list.vue`](../webClient/src/app/components/currentUser/tasks/list.vue) (framework root; copied to generated `../src/webClient/`).
 - **`PluginUtilsJs`**, **`BootI18nJs`** — overlay `utils.js` and `i18n.js` after copy.

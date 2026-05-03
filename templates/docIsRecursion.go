@@ -9,7 +9,7 @@ import (
 )
 
 func docIsRecursionProccess(p types.ProjectType, d *types.DocType) {
-	sourcePath := fmt.Sprintf("%s/webClient/quasar_2/doc/comp/recursiveChildList.vue", getCurrentDir())
+	sourcePath := fmt.Sprintf("%s/webClient/doc/comp/recursiveChildList.vue", getCurrentDir())
 	// проверяем возможность того, что путь к шаблону был переопределен внутри документа
 	if d.TemplatePathOverride != nil {
 		if tmpl, ok := d.TemplatePathOverride["recursiveChildList.vue"]; ok {

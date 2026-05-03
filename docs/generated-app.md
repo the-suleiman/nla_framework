@@ -8,7 +8,7 @@ Typical output:
 - **`../src/webServer/`** — Gin app, auth, API, SSE ([`sourceFiles/src/webServer/`](../sourceFiles/src/webServer/) + templates).
 - **`../src/sql/model/`** — TOML models per table.
 - **`../src/sql/template/function/`** — SQL functions and triggers.
-- **`../src/webClient/`** — Quasar 2 app (from [`templates/project/webClient/quasar_2/`](../templates/project/webClient/quasar_2/) templates + [`webClient/quasar_2/`](../webClient/quasar_2/) copy).
+- **`../src/webClient/`** — Quasar 2 app (from [`templates/project/webClient/`](../templates/project/webClient/) templates + copy of [`webClient/`](../webClient/)).
 - **`../src/pg/`**, **`../src/jobs/`**, **`../src/utils/`**, **`../src/sse/`** — from `sourceFiles`.
 
 Root-level **`config.toml`**, **`Dockerfile`**, **`docker-compose*.yml`** come from `project_*` templates ([`templates/project/`](../templates/project/)).

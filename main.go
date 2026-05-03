@@ -96,9 +96,9 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 	if !p.Config.Auth.ByPhone {
 		p.Config.Auth.ByEmail = true
 	}
-	// дефолтная версия Postgres 12
+	// дефолтная версия Postgres 18
 	if len(p.Config.Postgres.Version) == 0 {
-		p.Config.Postgres.Version = "12"
+		p.Config.Postgres.Version = "18"
 	}
 
 	// дефолты для бэкапа на яндекс диск
@@ -137,8 +137,8 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 	err := copyFiles(project, getCurrentDir()+"/sourceFiles", "../", modifyFunc)
 	utils.CheckErr(err, "Copy sourceFiles")
 
-	// копируем webClient (Quasar 2 only)
-	err = copyFiles(project, getCurrentDir()+"/webClient/quasar_2", "../src/", modifyFunc)
+	// копируем статический SPA-скелет в ../src/webClient/
+	err = copyFiles(project, filepath.Join(getCurrentDir(), "webClient"), project.DistPath+"/webClient/", modifyFunc)
 	utils.CheckErr(err, "Copy sourceFiles")
 
 	templates.OtherTemplatesGenerate(project)
@@ -146,7 +146,12 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 
 // функция для копирования файлов с возможностью модификаации содержимого файлов
 func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModifyFunc) (err error) {
-	err = filepath.Walk(source,
+	sourceRoot := filepath.Clean(source)
+	sourcePrefix := strings.Replace(sourceRoot, "\\", "/", -1)
+	if !strings.HasSuffix(sourcePrefix, "/") {
+		sourcePrefix += "/"
+	}
+	err = filepath.Walk(sourceRoot,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -156,8 +161,9 @@ func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModi
 				if err != nil {
 					return err
 				}
-				// для windows заменяем слэши в пути на обратные
-				dirPath := strings.TrimSuffix(strings.TrimPrefix(strings.Replace(path, "\\", "/", -1), source), info.Name())
+				// относительный путь внутри source; нормализуем, чтобы корневые файлы не получили ведущий "/"
+				pathNorm := strings.Replace(path, "\\", "/", -1)
+				dirPath := strings.TrimSuffix(strings.TrimPrefix(pathNorm, sourcePrefix), info.Name())
 				// создаем директории
 				err = os.MkdirAll(dist+dirPath, os.ModePerm)
 				if err != nil {

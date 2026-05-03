@@ -2,7 +2,7 @@
 
 ## Public API
 
-- **`Start(p types.ProjectType, modifyFunc)`** — [`main.go`](../main.go): validates defaults, calls `readData`, parses templates, writes project + doc files, copies static trees from [`sourceFiles/`](../sourceFiles/) and [`webClient/quasar_2/`](../webClient/quasar_2/), runs secondary generators (`OtherTemplatesGenerate`).
+- **`Start(p types.ProjectType, modifyFunc)`** — [`main.go`](../main.go): validates defaults, calls `readData`, parses templates, writes project + doc files, copies static trees from [`sourceFiles/`](../sourceFiles/) and [`webClient/`](../webClient/) (into `../src/webClient/`), runs secondary generators (`OtherTemplatesGenerate`).
 
 ## Pipeline (order)
 
@@ -12,9 +12,9 @@
 4. **`templates.WriteProjectFiles`** — [`templates/project.go`](../templates/project.go): renders project templates and explicit paths (types, webServer, SQL seeds, Quasar shell).
 5. **Per-doc `ExecuteToFile`** — emits each doc’s template map.
 6. **`copyFiles(sourceFiles)`** — copies backend/sql utilities into the generated tree with import rewrites and slot injection (`routes.js`, `sidemenu`, `config.js`, etc.).
-7. **`copyFiles(webClient/quasar_2)`** — copies the Quasar 2 SPA skeleton into `../src/`.
+7. **`copyFiles(webClient → ../src/webClient/)`** — copies the Quasar 2 SPA skeleton from the framework’s [`webClient/`](../webClient/) tree.
 8. **`OtherTemplatesGenerate`** — [`templates/project.go`](../templates/project.go): task list regeneration, `utils.js` / `i18n.js` overlays ([`templates/tmplGenerateStep2/`](../templates/tmplGenerateStep2/)).
 
 ## Frontend bundle
 
-- Only one Quasar 2 SPA is supported. Generator paths reference `quasar_2` literally; there is no version selector. Static skeleton lives in [`webClient/quasar_2/`](../webClient/quasar_2/), project-shell templates in [`templates/project/webClient/quasar_2/`](../templates/project/webClient/quasar_2/), and per-doc templates in [`templates/webClient/quasar_2/`](../templates/webClient/quasar_2/).
+- Only one Quasar 2 SPA is supported; there is no alternate frontend or version switch. The static skeleton lives in [`webClient/`](../webClient/); project shell templates in [`templates/project/webClient/`](../templates/project/webClient/); per-doc Vue under [`templates/webClient/doc/`](../templates/webClient/doc/).

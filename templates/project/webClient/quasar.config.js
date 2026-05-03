@@ -66,7 +66,7 @@ export default defineConfig(function (ctx) {
       scopeHoisting: true,
       vueRouterBase: '/',
       vueCompiler: true,
-      publicPath: 'static/',
+      publicPath: '/static/',
       distDir: 'dist',
 
       // webpackTranspile: false,
@@ -288,7 +288,7 @@ export default defineConfig(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'test_quasar_2'
+        appId: 'nla_web_app'
       }
     }
   }
