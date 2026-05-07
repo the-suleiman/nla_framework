@@ -25,7 +25,8 @@ func (p *ProjectType) FillVueBaseRoutes() {
 		itemRouteIndex := 0
 		for i, arr := range p.Vue.Routes {
 			if len(arr) < 2 {
-				log.Fatalf("'%s' in  project.Routes route: %v length < 2", arr)
+				// route должен содержать путь и компоненту; иначе генератор не сможет вывести routes.js
+				log.Fatalf("project.Routes route: %v length < 2", arr)
 			}
 			if arr[0] == d.Vue.RouteName {
 				indexRouteIndex = i

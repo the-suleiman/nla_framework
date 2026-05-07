@@ -14,3 +14,5 @@ Typical output:
 Root-level **`config.toml`**, **`Dockerfile`**, **`docker-compose*.yml`** come from `project_*` templates ([`templates/project/`](../templates/project/)).
 
 Optional packages when flags are set (see [integrations-inventory.md](integrations-inventory.md)): **`odata/`**, **`tgBot/`**, **`yandexDiskBackup/`**.
+
+Generated Go sources are intended to build in the target app after import rewriting to `Config.LocalProjectPath`. Runtime helpers copied from [`sourceFiles/`](../sourceFiles/) use current `io` APIs (`io.ReadAll`) rather than deprecated `io/ioutil`.

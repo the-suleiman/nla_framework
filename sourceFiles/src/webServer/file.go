@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -75,7 +75,7 @@ func uploadFile(c *gin.Context) {
 	defer file.Close()
 
 	// читаем содержание присланного файл в []byte
-	fileBytes, err := ioutil.ReadAll(file)
+	fileBytes, err := io.ReadAll(file)
 	if err != nil {
 		utils.HttpError(c, http.StatusBadRequest, err.Error())
 		return

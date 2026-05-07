@@ -530,7 +530,8 @@ func (vt VueTab) AddCounter(d *DocType, tabName, pgMethod, pgParams string) VueT
 	if d.Vue.Mixins["docItemWithTabs"] == nil {
 		d.Vue.Mixins["docItemWithTabs"] = []VueMixin{}
 	}
-	d.Vue.Mixins["docItemWithTabs"] = append(d.Vue.Mixins["docItemWithTabs"], VueMixin{"tabCounter" + tabName, "./mixins/tabCounter" + tabName + ".js"})
+	// регистрируем миксин с именованными полями, чтобы структура VueMixin могла безопасно расширяться
+	d.Vue.Mixins["docItemWithTabs"] = append(d.Vue.Mixins["docItemWithTabs"], VueMixin{Title: "tabCounter" + tabName, Import: "./mixins/tabCounter" + tabName + ".js"})
 	sourcePath := fmt.Sprintf("%s/templates/webClient/doc/mixins/tabCounter.js", getRootDirPath())
 	funcMap := template.FuncMap{
 		"VarName":  func() string { return "tabCounter" + tabName },

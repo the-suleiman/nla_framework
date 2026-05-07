@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -230,17 +229,17 @@ func ExecuteToFile(t *template.Template, d interface{}, path, filename string) e
 	if err != nil {
 		return err
 	}
-	// для оптимизации записи файлов webClient (чтобы ускорить рестарт quasar), проверяем что файл изменен и только в этом случае его перезаписываем
+	// для оптимизации записи файлов webClient (чтобы ускорить рестарт quasar), сравниваем с существующим файлом перед записью
 	if strings.Contains(path, "webClient") {
-		if existFile, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", path, filename)); err == nil {
-			isEqual := utils.ByteSliceEqual(existFile, []byte(tpl.String()))
+		if existFile, err := os.ReadFile(fmt.Sprintf("%s/%s", path, filename)); err == nil {
+			isEqual := utils.ByteSliceEqual(existFile, tpl.Bytes())
 			if isEqual {
 				return nil
 			}
 			//fmt.Printf("file changed: %s/%s not equal\n", path, filename)
 		}
 	}
-	return ioutil.WriteFile(path+"/"+filename, []byte(tpl.String()), 0644)
+	return os.WriteFile(path+"/"+filename, tpl.Bytes(), 0644)
 }
 
 // печать vue темплейтов для
@@ -363,10 +362,10 @@ func PrintVueFldTemplate(fld types.FldType) string {
 		return fmt.Sprintf(`<q-select %s :label="$t('%s')" v-model='item.%s' :options='%s' %s %s :readonly='%s' %s/>`, borderStyle, labelI18n, name, options, multiple, isClearable, readonly, params)
 	case types.FldTypeVueComposition:
 		if fld.Vue.Composition == nil {
-			log.Fatal(fmt.Sprintf("fld have type '%s', but fld.Vue.Composition function is nil", types.FldTypeVueComposition))
+			log.Fatalf("fld have type '%s', but fld.Vue.Composition function is nil", types.FldTypeVueComposition)
 		}
-		// возможен вариант что функция рендеринга поля шаблона вызываается до того как сам документ был инициализирован и соответственно была заполнена ссылка на него в поле fld.Doc
-		// в таком случае в функуию передаем пустой документ. Если функция не использует ссылку на документ, то все ок. Но если в функции идет обращение к инфе о документе, то функция отработает некорректно.
+		// возможен вариант что функция рендеринга поля шаблона вызывается до инициализации документа и заполнения ссылки fld.Doc
+		// в таком случае в функцию передаем пустой документ. Если функция не использует ссылку на документ, то все ок. Но если в функции идет обращение к инфе о документе, то функция отработает некорректно.
 		// возможное решение, чтобы вызов функции в шаблоне происходил уже после инициализации документа
 		linkOnDoc := types.DocType{}
 		if fld.Doc != nil {

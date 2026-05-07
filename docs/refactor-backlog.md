@@ -25,6 +25,7 @@ Status of cleanups and outstanding work for the framework. Grouped by intent so 
 - **GOPATH `FillLocalPath`** — only **`go.mod`**-based inference remains (or explicit `LocalProjectPath`).
 - **Bitrix** — types, doc integration, SQL branches, generated routes/config, `templates/integrations/bitrix/` removed.
 - **`DevModeConfig.IsDocker`** — confirmed unused and removed from [`types/typeProject.go`](../types/typeProject.go) (no read sites in framework, templates, or generated runtime config).
+- **Go stdlib deprecations in template/generator code** — [`utils.UpperCaseFirst`](../utils/main.go) now uses `golang.org/x/text/cases` instead of deprecated `strings.Title`, and template/generator file I/O now uses `os.ReadFile`, `os.WriteFile`, `os.ReadDir`, and `io.ReadAll` instead of deprecated `io/ioutil`. The root [`go.mod`](../go.mod) now records these framework-side dependencies so `go mod tidy` can run at the repository root.
 
 ### Database / Postgres
 
@@ -54,5 +55,5 @@ Status of cleanups and outstanding work for the framework. Grouped by intent so 
 ### Project hygiene
 
 - **Tests** — no `*_test.go` today; add golden tests for template output or a minimal fixture project.
-- **Root `go.mod`** — optional: add module file + `replace` for `sourceFiles` import paths if you want `go test ./...` at framework root.
+- **Root `go test ./...` cleanup** — root module metadata exists now, but full-package test runs still trip over template-placeholder directories and generated-app source packages. Add a test strategy that excludes raw templates or renders a fixture app before running full checks.
 - **Doc template delimiters** — `templates/project/*` mixes `[[ ]]` and `{{ }}` delimiters depending on file. Document or unify per directory.

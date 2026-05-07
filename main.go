@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
@@ -144,7 +143,7 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 	templates.OtherTemplatesGenerate(project)
 }
 
-// функция для копирования файлов с возможностью модификаации содержимого файлов
+// функция для копирования файлов с возможностью модификации содержимого файлов
 func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModifyFunc) (err error) {
 	sourceRoot := filepath.Clean(source)
 	sourcePrefix := strings.Replace(sourceRoot, "\\", "/", -1)
@@ -157,7 +156,8 @@ func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModi
 				return err
 			}
 			if !info.IsDir() {
-				file, err := ioutil.ReadFile(path)
+				// читаем файл один раз, затем применяем все генераторные подстановки перед записью
+				file, err := os.ReadFile(path)
 				if err != nil {
 					return err
 				}
@@ -238,7 +238,7 @@ func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModi
 				}
 				// для оптимизации записи файлов webClient (чтобы ускорить рестарт quasar), проверяем что файл изменен и только в этом случае его перезаписываем
 				if strings.Contains(dist+dirPath+info.Name(), "webClient") {
-					if existFile, err := ioutil.ReadFile(dist + dirPath + info.Name()); err == nil {
+					if existFile, err := os.ReadFile(dist + dirPath + info.Name()); err == nil {
 						isEqual := utils.ByteSliceEqual(existFile, file)
 						if isEqual {
 							return nil
@@ -247,7 +247,7 @@ func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModi
 					}
 				}
 				// записываем файл по новому пути
-				err = ioutil.WriteFile(dist+dirPath+info.Name(), file, 0644)
+				err = os.WriteFile(dist+dirPath+info.Name(), file, 0644)
 				if err != nil {
 					return err
 				}

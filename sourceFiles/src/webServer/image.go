@@ -7,7 +7,7 @@ import (
 	"image/gif"
 	"image/jpeg"
 	"image/png"
-	"io/ioutil"
+	"io"
 	"math/rand"
 	"net/http"
 	"os"
@@ -175,9 +175,9 @@ func saveImage(c *gin.Context, path, filePrefix string, width int, crop []int) {
 	// два варианта
 	if isSaveAsIs {
 		// без перкодировки - сохраняем как есть, только заменяем имя
-		fileBytes, err := ioutil.ReadAll(file)
+		fileBytes, err := io.ReadAll(file)
 		if err != nil {
-			utils.HttpError(c, http.StatusBadRequest, fmt.Sprintf("uploadImage ioutil.ReadAll(file) error: %s", err))
+			utils.HttpError(c, http.StatusBadRequest, fmt.Sprintf("uploadImage io.ReadAll(file) error: %s", err))
 			return
 		}
 		_, err = fileOnDisk.Write(fileBytes)

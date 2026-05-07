@@ -2,18 +2,22 @@ package auth
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"[[.Config.LocalProjectPath]]/pg"
-	"[[.Config.LocalProjectPath]]/types"
-	"[[.Config.LocalProjectPath]]/utils"
-	"golang.org/x/crypto/bcrypt"
+	"io"
 	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
+
+	"[[.Config.LocalProjectPath]]/pg"
+	"[[.Config.LocalProjectPath]]/types"
+	"[[.Config.LocalProjectPath]]/utils"
 )
 
 type (
@@ -319,7 +323,7 @@ func sendSms(phone, token string) error  {
 	if httpRes.StatusCode != http.StatusOK {
 		return errors.New("bad request")
 	}
-	body, err := ioutil.ReadAll(httpRes.Body)
+	body, err := io.ReadAll(httpRes.Body)
 	if err != nil {
 		return err
 	}

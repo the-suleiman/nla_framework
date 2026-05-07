@@ -62,6 +62,7 @@ func fldTagProccess(p types.ProjectType, d *types.DocType, fld *types.FldType) {
 		if d.Vue.Mixins["docItem"] == nil {
 			d.Vue.Mixins["docItem"] = []types.VueMixin{}
 		}
-		d.Vue.Mixins["docItem"] = append(d.Vue.Mixins["docItem"], types.VueMixin{fld.Name + "_tag_list", "./mixins/" + fld.Name + "_tag_list"})
+		// добавляем миксин с именованными полями, чтобы структура VueMixin могла безопасно расширяться
+		d.Vue.Mixins["docItem"] = append(d.Vue.Mixins["docItem"], types.VueMixin{Title: fld.Name + "_tag_list", Import: "./mixins/" + fld.Name + "_tag_list"})
 	}
 }

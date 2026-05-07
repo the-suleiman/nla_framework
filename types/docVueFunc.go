@@ -361,7 +361,8 @@ func GetVueCompLinkListWidget(p ProjectType, d DocType, tableName string, opts m
 					} else {
 						depDoc := p.GetDocByName(f.Sql.Ref)
 						if depDoc == nil {
-							log.Fatalf(fmt.Sprintf("GetVueCompLinkListWidget not found '%s'", f.Sql.Ref))
+							// проверяем ссылочный документ до генерации vue-компоненты, иначе получится невалидный импорт/route
+							log.Fatalf("GetVueCompLinkListWidget not found '%s'", f.Sql.Ref)
 						}
 						tableDependName = depDoc.Name
 						tableDependRoute = depDoc.Vue.RouteName

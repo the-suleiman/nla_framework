@@ -3,7 +3,6 @@ package tmplGenerateStep2
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -18,7 +17,7 @@ import (
 func TasksTmpl(p types.ProjectType) {
 	distPath := fmt.Sprintf("%s/webClient/src/app/components/currentUser/tasks", p.DistPath)
 	// находим список файлов компонент в директории
-	files, err := ioutil.ReadDir(distPath + "/taskTemplates")
+	files, err := os.ReadDir(distPath + "/taskTemplates")
 	utils.CheckErr(err, "TasksTmpl")
 
 	funcMap := template.FuncMap{
@@ -60,5 +59,6 @@ func executeToFile(t *template.Template, d interface{}, path, filename string) e
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(path+"/"+filename, []byte(tpl.String()), 0644)
+	// сохраняем сгенерированный list.vue
+	return os.WriteFile(path+"/"+filename, tpl.Bytes(), 0644)
 }

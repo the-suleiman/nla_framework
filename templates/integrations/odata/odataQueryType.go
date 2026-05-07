@@ -6,9 +6,9 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"strings"
+
 	"[[.Config.LocalProjectPath]]/pg"
 )
 
@@ -20,13 +20,13 @@ type (
 		Select  []string
 		Expand  []string
 		Filter  []string
-		Limit int
+		Limit   int
 	}
 	resultMsgType struct {
-		Title string `json:"title"`
-		Result []string `json:"result"`
-		Errors []string `json:"errors"`
-		Duration string `json:"duration"`
+		Title    string   `json:"title"`
+		Result   []string `json:"result"`
+		Errors   []string `json:"errors"`
+		Duration string   `json:"duration"`
 	}
 )
 
@@ -47,7 +47,7 @@ func (q *odataQueryType) buildQuery() string {
 	if len(q.Filter) > 0 {
 		baseUrl += "&$filter=" + strings.Join(q.Filter, ",")
 	}
-	if q.Limit>0 {
+	if q.Limit > 0 {
 		baseUrl += fmt.Sprintf("&$top=%v", q.Limit)
 	}
 	return baseUrl
@@ -62,16 +62,16 @@ func odataCallByUrl(url, method, formatType string, res interface{}, reqBody []b
 		return err
 	}
 
-	// This one line implements the authentication required for the task.
+	// авторизуемся в odata перед каждым запросом
 	req.SetBasicAuth(odataConfig.Login, odataConfig.Password)
 
-	// Make request and show output.
+	// выполняем запрос
 	httpRes, err := client.Do(req)
 	if err != nil {
 		return err
 	}
 
-	body, err := ioutil.ReadAll(httpRes.Body)
+	body, err := io.ReadAll(httpRes.Body)
 	if err != nil {
 		return err
 	}
@@ -98,16 +98,16 @@ func postAuthOdataByUrl(url string, jsonData io.Reader, res interface{}) error {
 		return err
 	}
 
-	// This one line implements the authentication required for the task.
+	// авторизуемся в odata перед каждым запросом
 	req.SetBasicAuth(odataConfig.Login, odataConfig.Password)
 
-	// Make request and show output.
+	// выполняем запрос
 	httpRes, err := client.Do(req)
 	if err != nil {
 		return err
 	}
 
-	body, err := ioutil.ReadAll(httpRes.Body)
+	body, err := io.ReadAll(httpRes.Body)
 	if err != nil {
 		return err
 	}
@@ -116,24 +116,24 @@ func postAuthOdataByUrl(url string, jsonData io.Reader, res interface{}) error {
 	return json.Unmarshal(body, &res)
 }
 
-func newResultMsgType(title string) resultMsgType  {
+func newResultMsgType(title string) resultMsgType {
 	return resultMsgType{
-		Title: 	title,
+		Title:    title,
 		Result:   []string{},
 		Errors:   []string{},
 		Duration: "",
 	}
 }
 
-func (r *resultMsgType) addErr(msg string)  {
+func (r *resultMsgType) addErr(msg string) {
 	r.Errors = append(r.Errors, msg)
 }
 
-func (r *resultMsgType) addResult(msg string)  {
+func (r *resultMsgType) addResult(msg string) {
 	r.Result = append(r.Result, msg)
 }
 
-func (r *resultMsgType) setDuration(msg string)  {
+func (r *resultMsgType) setDuration(msg string) {
 	r.Duration = msg
 }
 

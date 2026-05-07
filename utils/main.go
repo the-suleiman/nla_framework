@@ -3,6 +3,8 @@ package utils
 import (
 	"fmt"
 	"github.com/serenize/snaker"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	"log"
 	"strings"
 )
@@ -13,13 +15,15 @@ func CheckErr(err error, msg string) {
 	}
 }
 
+// upperCaseFirst is exposed to templates and preserves the old first-word behavior.
 func UpperCaseFirst(str string) string {
+	titleCaser := cases.Title(language.Und)
 	arr := strings.Split(str, " ")
 	if len(arr) > 1 {
-		arr[0] = strings.Title(arr[0])
+		arr[0] = titleCaser.String(arr[0])
 		return strings.Join(arr, " ")
 	}
-	return strings.Title(str)
+	return titleCaser.String(str)
 }
 
 func ParseDocTemplateFilename(docName, filename, globalDistPath string, docIndex int, params map[string]string) (distPath, distFilename string) {
@@ -93,7 +97,7 @@ func CheckContainsSliceStr(str string, arr ...string) bool {
 }
 
 func PathExtractFilename(p string) (path, filename string) {
-	arr:= strings.Split(p, "/")
+	arr := strings.Split(p, "/")
 	filename = arr[len(arr)-1]
 	path = strings.TrimSuffix(p, "/"+filename)
 	return

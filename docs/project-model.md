@@ -18,6 +18,8 @@ Describes one document: fields, Vue (grid, tabs, routes, filters), SQL (triggers
 
 Field SQL + Vue typing; builder helpers in [`types/shortcuts.go`](../types/shortcuts.go). Integration metadata for OData lives in `IntegrationData["odata"]` (`types.OdataFld`).
 
+Several builder helpers generate template names, component names, and mixin registrations. When they need title casing, they go through [`utils.UpperCaseFirst`](../utils/main.go), which keeps the previous first-word behavior while using `golang.org/x/text/cases`.
+
 ## Local module path
 
 **`FillLocalPath`** finds **`go.mod`** by walking **up from the current working directory** (so running from e.g. `projectTemplate/` still picks the app’s module). It sets `Config.LocalProjectPath` to `modulePath` + `/src` (with optional `/projectTemplate` suffix trimmed). Set `LocalProjectPath` explicitly if you work outside a normal module tree.

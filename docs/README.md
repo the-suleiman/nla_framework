@@ -1,6 +1,6 @@
 # nla_framework documentation
 
-First-pass docs for maintainers after the legacy cleanup (Quasar 2 only, Bitrix removed).
+Maintainer notes for the generator after the legacy cleanup (Quasar 2 only, Bitrix removed) and Go stdlib deprecation pass.
 
 ## Contents
 
@@ -17,4 +17,4 @@ External references (historical): [framework.nl-a.ru](https://framework.nl-a.ru)
 
 ## Module layout
 
-This repository is consumed as a Go library (`github.com/the-suleiman/nla_framework`). There is **no `go.mod` at the repo root** in many setups; consumers wire the module via their own `go.mod` / `replace`. Generated apps copy `sourceFiles` and rewrite imports to `Config.LocalProjectPath`.
+This repository is consumed as a Go library (`github.com/the-suleiman/nla_framework`) and now carries a root [`go.mod`](../go.mod) so framework packages can be tidied and vetted directly. Generated apps still copy `sourceFiles` and rewrite imports to `Config.LocalProjectPath`; consumers can keep using their own `go.mod` / `replace` wiring for application projects.
