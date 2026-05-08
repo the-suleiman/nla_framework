@@ -1,20 +1,37 @@
 # nla_framework documentation
 
-Maintainer notes for the generator after the legacy cleanup (Quasar 2 only, Bitrix removed) and Go stdlib deprecation pass.
+This documentation is **staged**: start with the pages that match what you’re doing right now (generating an app, authoring a project model, adding templates/integrations, or maintaining the framework internals).
 
-## Contents
+## start here (new users)
 
-| Doc | Purpose |
-|-----|---------|
-| [architecture.md](architecture.md) | Generator entrypoint and pipeline |
-| [project-model.md](project-model.md) | `ProjectType`, `DocType`, `FldType` |
-| [template-system.md](template-system.md) | Template dirs, naming, post-processing |
-| [generated-app.md](generated-app.md) | Shape of output under `../src` |
-| [integrations-inventory.md](integrations-inventory.md) | Optional integrations still in tree |
-| [refactor-backlog.md](refactor-backlog.md) | Follow-up refactors and removed surface |
+- [getting started overview](00-getting-started/overview.md)
+- [quickstart](00-getting-started/quickstart.md)
+- [configuration map](00-getting-started/configuration-map.md)
+- [generated app layout](20-generator-pipeline/dist-layout.md)
 
-External references (historical): [framework.nl-a.ru](https://framework.nl-a.ru), [old docs mirror](https://pepelazz.github.io/nla-framework-docs).
+## project authoring (ProjectType / DocType / templates)
 
-## Module layout
+- [ProjectType reference](10-project-model/projecttype.md)
+- [DocType reference](10-project-model/doctype.md)
+- [FldType reference](10-project-model/fldtype.md)
+- [builders and shortcuts](10-project-model/builders-and-shortcuts.md)
+- [templates lifecycle](30-templates/template-lifecycle.md)
+- [template FuncMap reference](30-templates/funcmap-reference.md)
+- [template overrides](30-templates/overrides.md)
+- [how to add a template](30-templates/how-to-add-template.md)
 
-This repository is consumed as a Go library (`github.com/the-suleiman/nla_framework`) and now carries a root [`go.mod`](../go.mod) so framework packages can be tidied and vetted directly. Generated apps still copy `sourceFiles` and rewrite imports to `Config.LocalProjectPath`; consumers can keep using their own `go.mod` / `replace` wiring for application projects.
+## generator behavior (end-to-end)
+
+- [pipeline](20-generator-pipeline/pipeline.md)
+- [copy and rewrite rules](20-generator-pipeline/copy-and-rewrite.md)
+
+## integrations
+
+- [integrations index](40-integrations/README.md)
+
+## maintainers
+
+- [feature/page inventory (source-of-truth map)](90-internals/feature-inventory.md)
+- [code map](90-internals/code-map.md)
+- [testing and verification](90-internals/testing-and-verification.md)
+- [refactor notes](90-internals/refactor-notes.md)
