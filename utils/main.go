@@ -3,10 +3,9 @@ package utils
 import (
 	"fmt"
 	"github.com/serenize/snaker"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 	"log"
 	"strings"
+	"unicode"
 )
 
 func CheckErr(err error, msg string) {
@@ -15,15 +14,15 @@ func CheckErr(err error, msg string) {
 	}
 }
 
-// upperCaseFirst is exposed to templates and preserves the old first-word behavior.
+// upperCaseFirst is exposed to templates.
+// It uppercases only the first rune and preserves the rest (important for camelCase identifiers).
 func UpperCaseFirst(str string) string {
-	titleCaser := cases.Title(language.Und)
-	arr := strings.Split(str, " ")
-	if len(arr) > 1 {
-		arr[0] = titleCaser.String(arr[0])
-		return strings.Join(arr, " ")
+	if str == "" {
+		return ""
 	}
-	return titleCaser.String(str)
+	r := []rune(str)
+	r[0] = unicode.ToUpper(r[0])
+	return string(r)
 }
 
 func ParseDocTemplateFilename(docName, filename, globalDistPath string, docIndex int, params map[string]string) (distPath, distFilename string) {
