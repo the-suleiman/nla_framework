@@ -17,6 +17,7 @@ This documentation is **staged**: start with the pages that match what you’re 
 - [builders and shortcuts](10-project-model/builders-and-shortcuts.md)
 - [templates lifecycle](30-templates/template-lifecycle.md)
 - [template FuncMap reference](30-templates/funcmap-reference.md)
+- [shared Vue controls (files, stat image)](30-templates/vue-shared-controls.md)
 - [template overrides](30-templates/overrides.md)
 - [how to add a template](30-templates/how-to-add-template.md)
 
@@ -31,6 +32,7 @@ This documentation is **staged**: start with the pages that match what you’re 
 
 ## maintainers
 
+- [Postgres 18 production migration runbook](90-internals/postgres-18-migration-runbook.md)
 - [feature/page inventory (source-of-truth map)](90-internals/feature-inventory.md)
 - [code map](90-internals/code-map.md)
 - [testing and verification](90-internals/testing-and-verification.md)

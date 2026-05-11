@@ -20,6 +20,10 @@ Source: `types/shortcuts.go`.
 - `GetFldSelectString`, `GetFldSelectMultiple`
 - `GetFldFiles`, `GetFldImg`, `GetFldImgList`
   - creates JSON-backed file/image widgets with upload constraints stored in `Vue.Ext`
+  - for **`GetFldFiles`**, `FldVueFilesParams` fills `Vue.Ext` with:
+    - `accept` (optional MIME/extension filter string)
+    - `maxFileSize` (optional, stored as a decimal string from `int64`)
+  - the generated `<comp-fld-files>` widget supports **extra** Vue-only props not emitted by Go (for example `:show-uploader-dialog="true"`). See [shared Vue controls](../30-templates/vue-shared-controls.md).
 - `GetFldJsonList`
   - jsonb list editor with nested fields
 

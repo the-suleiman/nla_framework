@@ -14,6 +14,7 @@ This page is a quick reference for the “framework-provided” template helpers
 
 - `PrintVueFldTemplate(fld)`
   - renders the correct Vue control for a field (`q-input`, `q-select`, ref-search, files/images, jsonList, custom compositions)
+  - for **files** (`FldVue.Type` `"files"`), output is `<comp-fld-files/>` with `ext` from `FldVue.Ext` plus `tableName` / `tableId`; see [shared Vue controls](vue-shared-controls.md)
 - `PrintFldSelectOptions(doc, fldName)`
   - prints select options for a doc field by name
 

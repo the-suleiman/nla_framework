@@ -34,6 +34,8 @@ The framework renders Vue controls primarily via template helpers in `templates/
   - `FldVue.Composition` (custom renderer)
   - `FldVue.Ext` (extra params for some widgets)
 
+For **`FldVue.Type == "files"`** (`FldVueTypeFiles`), the template emits `<comp-fld-files … :ext="{ tableName, tableId, … }"/>`. Runtime behavior (upload URL, drag-and-drop, optional dialog-only mode, image previews) lives in the shared Vue implementation. See [shared Vue controls](../30-templates/vue-shared-controls.md). Image fields use `comp-stat-img-src` for resolved URLs; that helper is documented on the same page.
+
 ## reserved/validated rules
 
 During `readData` (`main.go`), the generator rejects any field named:
