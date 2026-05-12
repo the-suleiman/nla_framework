@@ -4,7 +4,7 @@ The framework repo ships a Quasar SPA skeleton under [`webClient/`](../../webCli
 
 ## files field: `comp-fld-files`
 
-- **source**: [`webClient/src/app/components/common/list/compFldFiles.vue`](../../webClient/src/app/components/common/list/compFldFiles.vue)
+- **source**: [`webClient/src/app/components/common/list/compFldFiles.vue`](../../webClient/src/app/components/common/list/compFldFiles.vue) — template and script include **inline comments** (behavior, refs, lifecycle).
 - **registration**: global component `comp-fld-files` in [`webClient/src/app/components/common/index.js`](../../webClient/src/app/components/common/index.js)
 
 ### generated markup
@@ -41,12 +41,17 @@ If `ext.maxFileSize` is absent, the uploader defaults to **10_000_000** bytes (1
 
 There is **no default** for `showUploaderDialog`: generated templates omit it, so new docs get the **inline bar** uploader. Pass `:show-uploader-dialog="true"` in a custom template when you want dialog-only upload.
 
+### `update` event
+
+After a successful `postCallPgMethod` call (on uploader **`finish`** or after **delete**), the component emits **`update`** with the current file list array (same shape as `fld`, including rows marked `deleted` that are hidden from the UI by `filteredList`).
+
 ### behavior notes
 
 - **Multiple files** per batch; the list is persisted with `postCallPgMethod` on the uploader **`finish`** event (after the queue completes), not on each individual `uploaded` response.
 - **Drag-and-drop** on the bar adds files to the inline uploader, or opens the dialog and adds files there when `showUploaderDialog === true`.
 - **Images** (common extensions): row shows a prefetched thumbnail; click opens a preview dialog with download. Thumbnails use blob URLs that are **revoked** when rows disappear or the component is destroyed.
 - **Two refs**: `uploaderInline` and `uploaderDialog` so Vue does not overwrite a single `ref` when both exist in the tree.
+- **Delete**: the row is marked `deleted`, **spliced to the end** of the in-memory list (so the payload order matches “removed last”), `/api/remove_file/{token}` runs, then `${tableName}_update` persists the full list. The list UI only shows `filteredList` (non-deleted).
 
 ### axios blob errors
 
@@ -54,8 +59,10 @@ The component registers a **global** axios response interceptor in `mounted` to 
 
 ## static image URLs: `comp-stat-img-src`
 
-- **source**: [`webClient/src/app/components/common/utils/statImgSrc.vue`](../../webClient/src/app/components/common/utils/statImgSrc.vue)
+- **source**: [`webClient/src/app/components/common/utils/statImgSrc.vue`](../../webClient/src/app/components/common/utils/statImgSrc.vue) — short **HTML + script comments** mirror the rules below.
 - **registration**: `comp-stat-img-src` in the same `index.js`
+
+Thin wrapper around **`q-img`**: forwards the **`error`** event; default slot passes through for overlays/spinners.
 
 ### URL resolution (`src` prop)
 
