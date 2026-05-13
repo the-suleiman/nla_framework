@@ -1,6 +1,7 @@
 <!--
   multi-image doc field: draggable thumbnails, q-uploader (inline or dialog), optional URL add,
-  sort/clear/bulk-delete when ext allows, preview dialog, rotate via /api/rotate_image.
+  client sort-by-file (persisted via same PG update as reorder) / clear / bulk-delete when ext allows,
+  preview dialog, rotate via /api/rotate_image.
   script setup + direct config/utils/i18n (same pattern as comp-fld-files).
   server: upload_image optional preserveOriginalFileName; see docs/90-internals/plan-image-list-upload-unify.md
 -->
@@ -95,7 +96,7 @@
           </q-uploader>
         </div>
 
-        <div v-if="list.length && ext && ext.sortPhotoPgMethod">
+        <div v-if="list.length && canSortByFile">
           <q-btn flat round icon="sort" size="sm" :disable="selectMode" @click="isShowSortDialog = true">
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]" style="border-radius: 10px">сортировка</q-tooltip>
           </q-btn>
@@ -284,6 +285,14 @@ const headers = computed(() => {
 const useDialogUploader = computed(() => !!(props.ext && props.ext.useDialogUploader))
 
 const canClearAll = computed(() => !props.readonly && !(props.ext && props.ext.disableClearAll))
+
+// sort-by-file only when uploads are not forced to random names (same signal as preserveOriginalFileName)
+const canSortByFile = computed(() => {
+  const e = props.ext
+  if (!e || e.disableSortByFile === true) return false
+  if (e.randomizeUploadFileNames === true) return false
+  return true
+})
 
 const formField = computed(() => {
   const res = [
@@ -517,14 +526,30 @@ function confirmBulkDelete() {
 }
 
 function confirmSort() {
-  if (!(props.ext && props.ext.sortPhotoPgMethod)) return
-  const params = (props.ext && props.ext.sortPhotoPgParams) || {id: props.ext.tableId}
-  utils.callPgMethod(props.ext.sortPhotoPgMethod, params, (res) => {
-    if (Array.isArray(res)) {
-      list.value = res
-      emitListUpdate()
-    }
-  })
+  if (!canSortByFile.value) return
+  const next = [...list.value]
+    .filter((x) => x && !x.deleted)
+    .sort((a, b) =>
+      String(a.file || '').localeCompare(String(b.file || ''), undefined, {
+        numeric: true,
+        sensitivity: 'base'
+      })
+    )
+    .map((x) => ({...x}))
+  list.value = next
+
+  if (!props.isUpdateFldsInPostgres) {
+    emitListUpdate()
+    return
+  }
+
+  utils.postCallPgMethod({
+    method: pgUpdateMethod(),
+    params: {id: props.ext.tableId, [props.ext.fldName]: list.value.map((v) => ({...v}))}
+  }).subscribe(
+    () => emitListUpdate(),
+    () => {}
+  )
 }
 
 function confirmClear() {

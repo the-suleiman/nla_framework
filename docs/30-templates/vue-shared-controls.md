@@ -106,8 +106,8 @@ Multipart **form fields** (in addition to the file) commonly include `tableName`
 |------|------|
 | `fld` | image rows (`{ file, deleted? }[]`) |
 | `label` | caption above the list |
-| `readonly` | hides upload / delete / rotate / reorder / bulk actions |
-| `ext` | `tableName`, `tableId`, `fldName`; optional `uploadUrl`, `accept`, `maxFileSize`, `width`, `crop`, `useDialogUploader`, `disableClearAll`, `canAddUrls`, `sortPhotoPgMethod` / `sortPhotoPgParams`, `clearPhotoField`, `randomizeUploadFileNames`, etc. |
+| `readonly` | hides upload / delete / rotate / reorder / sort / bulk actions |
+| `ext` | `tableName`, `tableId`, `fldName`; optional `uploadUrl`, `accept`, `maxFileSize`, `width`, `crop`, `useDialogUploader`, `disableClearAll`, `canAddUrls`, `clearPhotoField`, `randomizeUploadFileNames`, `disableSortByFile`, etc. |
 | `formFieldParams` | extra `{ name, value }[]` merged into the uploader form |
 | `isUpdateFldsInPostgres` | when false, mutations only emit `update` without `postCallPgMethod` |
 | `vif`, `icon` | kept for parity with other field components |
@@ -118,6 +118,7 @@ Emitted with a **plain array** of row objects (cloned) after local edits and aft
 
 ### behavior notes
 
+- **Sort by file** — dialog sorts rows by `file` in the browser (`localeCompare` with numeric collation), then persists with the same `postCallPgMethod` / `{table}_update` path as drag reorder. The sort button is shown when `ext.randomizeUploadFileNames !== true` (aligned with default meaningful basenames); set **`ext.disableSortByFile: true`** to hide it anyway.
 - **Reorder** uses `vuedraggable` with explicit `@update:model-value` handling so an empty transient list is never persisted by mistake.
 - **Thumbnails** use `comp-stat-img-src` in the list; preview dialog passes a resolved URL.
 - **i18n**: template still uses `$t('…')` in places; script uses `i18n.global.t` for programmatic strings.
