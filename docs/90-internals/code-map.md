@@ -23,7 +23,7 @@ This is a package-by-package map of where behavior lives.
 
 ## static trees copied into generated apps
 
-- `sourceFiles/`: backend/runtime utilities copied into generated apps (with import rewriting)
+- `sourceFiles/`: backend/runtime utilities copied into generated apps (with import rewriting); image upload/rotate live in [`sourceFiles/src/webServer/image.go`](../../sourceFiles/src/webServer/image.go) (`upload_image`, optional `preserveOriginalFileName`, `rotate_image`)
 - `webClient/`: Quasar 2 SPA skeleton copied into generated apps (shared controls such as `comp-fld-files` / `comp-stat-img-src` are documented in [`docs/30-templates/vue-shared-controls.md`](../30-templates/vue-shared-controls.md))
 
 ## shared utilities

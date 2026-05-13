@@ -64,8 +64,10 @@ func StartWebServer(config types.Config) {
 		apiRoute.POST("/upload_file", uploadFile)
 		apiRoute.GET("/file/:fileToken", downloadFile)
 		apiRoute.POST("/remove_file/:fileToken", deleteFile)
-		// загрузка фото
+		// image upload
 		apiRoute.POST("/upload_image", uploadImage)
+		// in-place rotate of stored image (comp-fld-img-list → /api/rotate_image)
+		apiRoute.POST("/rotate_image", rotateImage)
 		apiRoute.POST("/upload_profile_image", uploadProfileImage)
 [[if .IsTelegramIntegration -]]
 		apiRoute.POST("/telegram_auth", telegramAuth(config.Telegram))

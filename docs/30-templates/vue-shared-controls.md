@@ -82,3 +82,42 @@ Defined in [`types/i18n.go`](../../types/i18n.go) under `message` (ru/en):
 - `file_not_found_by_link`, `file_rejected_constraints`
 
 Regenerate or merge i18n in consuming apps after changing `FillI18n()` output.
+
+## images field: `comp-fld-img-list`
+
+- **source**: [`webClient/src/app/components/common/list/compFldImgList.vue`](../../webClient/src/app/components/common/list/compFldImgList.vue) — file-level HTML comment + `<script setup>` (same plugin imports as `comp-fld-files`: `config`, `utils`, `boot/i18n`, `useQuasar`).
+- **registration**: global `comp-fld-img-list` in [`webClient/src/app/components/common/index.js`](../../webClient/src/app/components/common/index.js)
+
+### upload URL
+
+- `` `${config.apiUrl()}/api/${ext.uploadUrl || 'upload_image'}` `` (override `ext.uploadUrl` only if the app exposes a different route).
+
+Multipart **form fields** (in addition to the file) commonly include `tableName`, `tableId`, optional `width` / `crop`, extra `formFieldParams`, and by default:
+
+- **`preserveOriginalFileName` = `1`** — sent unless `ext.randomizeUploadFileNames === true`, so the server may keep a safe version of the original basename (see [`docs/90-internals/plan-image-list-upload-unify.md`](../90-internals/plan-image-list-upload-unify.md)).
+
+### rotate
+
+- **`POST /api/rotate_image`** with JSON `{ "params": { "filename": "…" } }` and the usual **`Auth-token`** header. On success the UI bumps a per-file cache key so `q-img` reloads.
+
+### props (high level)
+
+| prop | role |
+|------|------|
+| `fld` | image rows (`{ file, deleted? }[]`) |
+| `label` | caption above the list |
+| `readonly` | hides upload / delete / rotate / reorder / bulk actions |
+| `ext` | `tableName`, `tableId`, `fldName`; optional `uploadUrl`, `accept`, `maxFileSize`, `width`, `crop`, `useDialogUploader`, `disableClearAll`, `canAddUrls`, `sortPhotoPgMethod` / `sortPhotoPgParams`, `clearPhotoField`, `randomizeUploadFileNames`, etc. |
+| `formFieldParams` | extra `{ name, value }[]` merged into the uploader form |
+| `isUpdateFldsInPostgres` | when false, mutations only emit `update` without `postCallPgMethod` |
+| `vif`, `icon` | kept for parity with other field components |
+
+### `update` event
+
+Emitted with a **plain array** of row objects (cloned) after local edits and after successful PG updates where applicable — same spirit as `comp-fld-files`.
+
+### behavior notes
+
+- **Reorder** uses `vuedraggable` with explicit `@update:model-value` handling so an empty transient list is never persisted by mistake.
+- **Thumbnails** use `comp-stat-img-src` in the list; preview dialog passes a resolved URL.
+- **i18n**: template still uses `$t('…')` in places; script uses `i18n.global.t` for programmatic strings.

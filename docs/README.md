@@ -32,6 +32,7 @@ This documentation is **staged**: start with the pages that match what you’re 
 
 ## maintainers
 
+- [image list + `upload_image` naming + `rotate_image`](90-internals/plan-image-list-upload-unify.md) (`comp-fld-img-list`, [`vue-shared-controls.md`](30-templates/vue-shared-controls.md))
 - [Postgres 18 production migration runbook](90-internals/postgres-18-migration-runbook.md)
 - [feature/page inventory (source-of-truth map)](90-internals/feature-inventory.md)
 - [code map](90-internals/code-map.md)
