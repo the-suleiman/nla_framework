@@ -16,7 +16,6 @@ import (
 	"github.com/the-suleiman/nla_framework/templates"
 	"github.com/the-suleiman/nla_framework/types"
 	"github.com/the-suleiman/nla_framework/utils"
-	//"github.com/otiai10/copy"
 )
 
 type (
@@ -99,19 +98,6 @@ func Start(p types.ProjectType, modifyFunc copyFileModifyFunc) {
 	if len(p.Config.Postgres.Version) == 0 {
 		p.Config.Postgres.Version = "18"
 	}
-
-	// дефолты для бэкапа на яндекс диск
-	//if p.IsBackupOnYandexDisk() {
-	//	if p.Config.Backup.ToYandexDisk.FilesCount == 0 {
-	//		p.Config.Backup.ToYandexDisk.FilesCount = 3
-	//	}
-	//	if p.Config.Backup.ToYandexDisk.Period == 0 {
-	//		p.Config.Backup.ToYandexDisk.Period = 12*60
-	//	}
-	//	if len(p.Config.Backup.ToYandexDisk.PostgresDockerName) == 0 {
-	//		p.Config.Backup.ToYandexDisk.PostgresDockerName = p.Config.Postgres.DbName
-	//	}
-	//}
 
 	// читаем данные для проекта
 	readData(p)
