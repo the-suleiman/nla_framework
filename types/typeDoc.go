@@ -248,17 +248,6 @@ func (d DocType) Fld(fldName string) *FldType {
 
 // место вызова разных доп функций для инициализации документа, после того как основные поля заполнены
 func (d *DocType) Init() {
-	// проверяем что есть поле title
-	//isExist := false
-	//for _, fld := range d.Flds {
-	//	if fld.Name == "title" {
-	//		isExist = true
-	//	}
-	//}
-	//if !isExist {
-	//	log.Fatalf("doc '%s' missed field 'title'", d.Name)
-	//}
-
 	d.Filli18n()
 	if len(d.Vue.Readonly) == 0 {
 		d.Vue.Readonly = "false"

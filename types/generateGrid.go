@@ -47,30 +47,3 @@ func getCell(grid *[]VueGridDiv, rowNum, colNum int, class string) *VueGridDiv {
 	}
 	return &(*grid)[rowNum-1].Grid[colNum-1]
 }
-
-// пример структуры для темплейта сетки
-//func makeGridOld() []types.VueGridDiv  {
-//	res := []types.VueGridDiv{}
-//	res = append(res, types.VueGridDiv{
-//		Class: "row q-col-gutter-md q-mb-sm",
-//		Grid: []types.VueGridDiv{
-//			{Class: "col-6", Fld: types.FldType{Name: "fld1"}},
-//			{
-//				Class: "col-6",
-//				Grid: []types.VueGridDiv {
-//					{Class: "row q-col-gutter-md q-mb-sm", Fld: types.FldType{Name: "fld2"}},
-//					{Class: "row q-col-gutter-md q-mb-sm", Fld: types.FldType{Name: "fld3"}},
-//					{Class: "row q-col-gutter-md q-mb-sm", Fld: types.FldType{Name: "fld4"}},
-//				},
-//			},
-//		},
-//	})
-//	res = append(res, types.VueGridDiv{
-//		Class: "row",
-//		Grid: []types.VueGridDiv{
-//			{Class: "col-6", Fld: types.FldType{Name: "fld5"}},
-//			{Class: "col-6", Fld: types.FldType{Name: "fld6"}},
-//		},
-//	})
-//	return res
-//}
