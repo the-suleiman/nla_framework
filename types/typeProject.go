@@ -3,9 +3,10 @@ package types
 import (
 	"fmt"
 	"log"
+	"maps"
 	"os"
 	"path/filepath"
-	"sort"
+	"slices"
 	"strings"
 
 	"golang.org/x/mod/modfile"
@@ -468,17 +469,6 @@ func (p *ProjectType) FillLocalPath() string {
 	return p.Config.LocalProjectPath
 }
 
-func sortedKeys(m map[string]DocSqlMethod) []string {
-	keys := make([]string, len(m))
-	i := 0
-	for k := range m {
-		keys[i] = k
-		i++
-	}
-	sort.Strings(keys)
-	return keys
-}
-
 func (p ProjectType) PrintApiCallPgFuncMethods() string {
 	res := ""
 	printPgMethod := func(m DocSqlMethod) {
@@ -504,7 +494,7 @@ func (p ProjectType) PrintApiCallPgFuncMethods() string {
 		}
 	}
 
-	for _, k := range sortedKeys(methods) {
+	for _, k := range slices.Sorted(maps.Keys(methods)) {
 		printPgMethod(methods[k])
 	}
 

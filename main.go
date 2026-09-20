@@ -1,6 +1,7 @@
 package nla_framework
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -225,7 +226,7 @@ func copyFiles(p types.ProjectType, source, dist string, modifyFunc copyFileModi
 				// для оптимизации записи файлов webClient (чтобы ускорить рестарт quasar), проверяем что файл изменен и только в этом случае его перезаписываем
 				if strings.Contains(dist+dirPath+info.Name(), "webClient") {
 					if existFile, err := os.ReadFile(dist + dirPath + info.Name()); err == nil {
-						isEqual := utils.ByteSliceEqual(existFile, file)
+						isEqual := bytes.Equal(existFile, file)
 						if isEqual {
 							return nil
 						}
