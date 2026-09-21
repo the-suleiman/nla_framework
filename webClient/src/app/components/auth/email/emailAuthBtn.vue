@@ -13,11 +13,8 @@
 
         <q-card-section style="padding-top: 10px">
           <!-- форма логин + пароль -->
-          <comp-login-form v-if='!(emailRegister.isNewRegister || emailRegister.isPasswordRecover)'
-                           @register="showNewEmailUserRegister"
+          <comp-login-form v-if='!emailRegister.isPasswordRecover'
                            @passwordRecover="showPasswordRecover"/>
-          <!--форма регистрации -->
-          <comp-register-form v-if="emailRegister.isNewRegister" @cancel="resetRegisterForm"/>
           <!--форма восстановления пароля -->
           <comp-recover-password-form v-if='emailRegister.isPasswordRecover' @cancel="resetPasswordRecover"/>
         </q-card-section>
@@ -33,15 +30,13 @@
 
 <script>
   import compLoginForm from './components/compLoginForm'
-  import compRegisterForm from './components/compRegisterForm'
   import compRecoverPasswordForm from './components/compRecoverPasswordForm'
 
   export default {
     props: ['disabled'],
-    components: {compLoginForm, compRegisterForm, compRecoverPasswordForm},
+    components: {compLoginForm, compRecoverPasswordForm},
     computed: {
       dialogTitle() {
-        if (this.emailRegister.isNewRegister) return this.$t('auth.registration')
         if (this.emailRegister.isPasswordRecover) return this.$t('auth.password_recovery')
         return this.$t('auth.authorization')
       },
@@ -50,8 +45,6 @@
       return {
         modalIsOpened: false,
         emailRegister: {
-          isNewRegister: false,
-          isNewRegisterSuccess: false, // флаг для изменения состояния, когда форма регистрации успешно отправлена
           isPasswordRecover: false,
           isPasswordRecoverSuccess: false,
         },
@@ -60,13 +53,6 @@
     methods: {
       login() {
         this.modalIsOpened = true
-      },
-      showNewEmailUserRegister() {
-        this.emailRegister.isNewRegister = true
-        this.emailRegister.isNewRegisterSuccess = false
-      },
-      resetRegisterForm() {
-        this.emailRegister.isNewRegister = false
       },
       showPasswordRecover() {
         this.emailRegister.isPasswordRecover = true
