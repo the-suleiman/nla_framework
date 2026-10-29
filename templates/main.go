@@ -232,7 +232,7 @@ func ExecuteToFile(t *template.Template, d interface{}, path, filename string) e
 	// для оптимизации записи файлов webClient (чтобы ускорить рестарт quasar), сравниваем с существующим файлом перед записью
 	if strings.Contains(path, "webClient") {
 		if existFile, err := os.ReadFile(fmt.Sprintf("%s/%s", path, filename)); err == nil {
-			isEqual := utils.ByteSliceEqual(existFile, tpl.Bytes())
+			isEqual := bytes.Equal(existFile, tpl.Bytes())
 			if isEqual {
 				return nil
 			}
